@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Conectal·lub — Plataforma de comunicação corporativa focada no setor industrial.">
+    <title>Conectal·lub - Plataforma de Comunicação Corporativa</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../TCC/css/estilo.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="site-header">
+        <nav class="container nav">
+            <div class="brand">
+                <h1 style="color: #7209b7; margin: 0; font-size: 1.5rem;">Conectal·lub</h1>
+            </div>
+
+            <button class="nav-toggle" aria-label="Abrir menu">☰</button>
+
+            <ul class="nav-links">
+                <li><a href="#home">Início</a></li>
+                <li><a href="#about">Sobre</a></li>
+                <li><a href="#institutional">Institucional</a></li>
+                <li><a href="#contact">Contato</a></li>
+            </ul>
+
+            <div class="nav-actions">
+                <a href="login.html" class="btn btn-outline">Entrar</a>
+                <a href="cadastro.html" class="btn btn-primary">Cadastro</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container hero-grid">
+            <div class="hero-copy">
+                <h1>Transformando a Comunicação Corporativa</h1>
+                <p>Uma plataforma completa para engajamento, gestão de mensagens e cultura interna, projetada para o setor industrial.</p>
+                <div class="hero-cta">
+                    <a href="cadastro.html" class="btn btn-primary large">Cadastro</a>
+                    <a href="#about" class="btn btn-outline large">Saiba Mais</a>
+                </div>
+            </div>
+            
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="container section">
+        <h2 class="section-title">Nossa Proposta de Valor</h2>
+        <div class="features-grid">
+            <article class="feature-card">
+                <div class="icon">🎯</div>
+                <h3>Identidade Visual Inovadora</h3>
+                <p>Um design que transmite inovação, clareza e profissionalismo.</p>
+            </article>
+
+            <article class="feature-card">
+                <div class="icon">🏭</div>
+                <h3>Foco no Setor Industrial</h3>
+                <p>Soluções especializadas para os desafios da indústria brasileira.</p>
+            </article>
+
+            <article class="feature-card">
+                <div class="icon">🔗</div>
+                <h3>Plataforma Completa</h3>
+                <p>Engajamento, mensagens e gestão em um único produto integrado.</p>
+            </article>
+        </div>
+    </section>
+
+    <!-- Institutional Section -->
+    <section id="institutional" class="section bg-muted">
+        <div class="container">
+            <h2 class="section-title">Nossa História</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <h4>Nascimento e Propósito</h4>
+                    <p>Transformamos a comunicação interna com foco no setor industrial.</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>Evolução da Marca</h4>
+                    <p>De sistema interno a plataforma completa de engajamento.</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>Reposicionamento Estratégico</h4>
+                    <p>Rebranding para consolidar imagem moderna e tecnológica.</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>Área de Foco</h4>
+                    <p>Comunicação interna, engajamento e produtividade para indústrias.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="container section">
+        <h2 class="section-title">Entre em Contato</h2>
+
+        <div id="loginRequired" class="login-required">
+            <div class="login-message">
+                <div class="login-icon">🔒</div>
+                <h3>Acesso Restrito</h3>
+                <p>Para entrar em contato conosco, você precisa fazer login em sua conta.</p>
+                <a href="login.html" class="btn btn-primary">Fazer Login</a>
+                <p class="login-help">Não tem uma conta? <a href="cadastro.html">Fazer Cadastro</a></p>
+            </div>
+        </div>
+
+        <div id="contactFormContainer" style="display: none;">
+            <div class="user-welcome" id="userWelcome"></div>
+            <form class="contact-form" id="contactForm">
+                <input type="text" name="nome" placeholder="Seu nome" required>
+                <input type="email" name="email" placeholder="Seu e-mail" required>
+                <input type="tel" name="telefone" placeholder="Seu telefone">
+                <textarea name="mensagem" placeholder="Sua mensagem" rows="5" required></textarea>
+                <button type="submit" class="btn btn-primary">Enviar Mensagem</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container footer-grid">
+            <div>
+                <div style="width: 150px; height: 60px; background: #7209b7; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 1.2rem; margin-bottom: 1rem;">
+                    Conectal·lub
+                </div>
+                <p class="muted">Plataforma de comunicação e engajamento para o setor industrial.</p>
+            </div>
+            <div>
+                <h4>Contato</h4>
+                <p class="muted">contato@conectallub.com • (xx) xxxx-xxxx</p>
+            </div>
+            <div>
+                <h4>Sobre</h4>
+                <p class="muted">TCC - Thiago Fonseca, Lara Fifalgo, Jeremias Ferreira e Maria Eduarda Marques | Firjan Senai Maracanã | 2025</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
