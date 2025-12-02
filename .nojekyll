@@ -1,9 +1,0 @@
-````
-
-**Depois faça isso no terminal:**
-
-````bash
-cd c:\Users\thiag\Desktop\TCC
-git add .
-git commit -m "Fix: Adiciona index.html na raiz"
-git push
