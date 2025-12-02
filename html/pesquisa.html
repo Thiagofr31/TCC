@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Pesquisa – Conectal·lub</title>
+  <link rel="stylesheet" href="../css/dashboard.css">
+  <style>
+    .search-container { max-width:600px; margin:0 auto; }
+    .search-bar { display:flex; gap:0.8rem; margin-bottom:2rem; }
+    .search-bar input { flex:1; padding:1rem; border:2px solid #ddd; border-radius:8px; font-size:1rem; font-family:inherit; }
+    .search-bar input:focus { outline:none; border-color:#7209b7; }
+    .search-bar button { padding:1rem 2rem; background:#7209b7; color:white; border:none; border-radius:8px; font-weight:600; cursor:pointer; }
+    .resultado { padding:1.5rem; background:white; border-radius:8px; margin-bottom:1rem; cursor:pointer; transition:all 0.3s; box-shadow:0 2px 4px rgba(0,0,0,0.05); }
+    .resultado:hover { box-shadow:0 4px 12px rgba(0,0,0,0.1); transform:translateY(-2px); }
+    .resultado-tipo { display:inline-block; padding:0.3rem 0.8rem; background:#f0f0f0; border-radius:4px; font-size:0.8rem; font-weight:600; color:#666; margin-bottom:0.5rem; }
+    .resultado-titulo { color:#0a0e2a; font-weight:600; font-size:1.1rem; margin-bottom:0.3rem; }
+    .resultado-descricao { color:#666; font-size:0.95rem; }
+  </style>
+</head>
+<body>
+  <div style="padding:2rem; background:#f1faee; min-height:100vh;">
+    <a href="dashboard.html" style="display:inline-block; margin-bottom:1.5rem; padding:0.6rem 1.2rem; background:#7209b7; color:white; text-decoration:none; border-radius:8px; font-weight:600;">← Voltar</a>
+    
+    <div class="search-container">
+      <h1 style="color:#0a0e2a; text-align:center; margin-bottom:2rem;">🔍 Pesquisar</h1>
+      
+      <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Buscar pessoas, mensagens, departamentos..." onkeyup="realizarPesquisa()">
+        <button onclick="realizarPesquisa()">🔍</button>
+      </div>
+
+      <div id="resultados">
+        <div style="text-align:center; color:#999; padding:3rem;">
+          <p style="font-size:1.2rem;">Comece a digitar para pesquisar</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const dadosPesquisa = [
+      { tipo: 'Pessoa', titulo: 'João Silva', descricao: 'Gerente de Produção • Departamento: Produção', url: '#' },
+      { tipo: 'Pessoa', titulo: 'Ana Costa', descricao: 'Vendedora Top • Departamento: Vendas', url: '#' },
+      { tipo: 'Pessoa', titulo: 'Carlos Mendes', descricao: 'Supervisor • Departamento: Logística', url: '#' },
+      { tipo: 'Pessoa', titulo: 'Caroline Silva', descricao: 'Gestora RH • Departamento: RH', url: '#' },
+      { tipo: 'Departamento', titulo: 'Produção', descricao: '45 membros • Status: Ativo', url: 'producao.html' },
+      { tipo: 'Departamento', titulo: 'TI', descricao: '12 membros • Status: Ativo', url: 'ti.html' },
+      { tipo: 'Departamento', titulo: 'RH', descricao: '8 membros • Status: Ativo', url: 'rh.html' },
+      { tipo: 'Departamento', titulo: 'Financeiro', descricao: '6 membros • Status: Ativo', url: 'financeiro.html' },
+      { tipo: 'Departamento', titulo: 'Vendas', descricao: '23 membros • Status: Ativo', url: 'vendas.html' },
+      { tipo: 'Departamento', titulo: 'Logística', descricao: '15 membros • Status: Ativo', url: 'logistica.html' },
+      { tipo: 'Documento', titulo: 'Manual de Procedimentos', descricao: 'Atualizado em 10/01/2025', url: '#' },
+      { tipo: 'Documento', titulo: 'Política de Férias', descricao: 'Atualizado em 05/01/2025', url: '#' }
+    ];
+
+    function realizarPesquisa() {
+      const termo = document.getElementById('searchInput').value.toLowerCase().trim();
+      const resultadosDiv = document.getElementById('resultados');
+
+      if(!termo) {
+        resultadosDiv.innerHTML = '<div style="text-align:center; color:#999; padding:3rem;"><p style="font-size:1.2rem;">Comece a digitar para pesquisar</p></div>';
+        return;
+      }
+
+      const resultados = dadosPesquisa.filter(item => 
+        item.titulo.toLowerCase().includes(termo) || 
+        item.descricao.toLowerCase().includes(termo)
+      );
+
+      if(resultados.length === 0) {
+        resultadosDiv.innerHTML = '<div style="text-align:center; color:#999; padding:3rem;"><p style="font-size:1.2rem;">Nenhum resultado encontrado para "<strong>' + termo + '</strong>"</p></div>';
+        return;
+      }
+
+      resultadosDiv.innerHTML = resultados.map(r => `
+        <a href="${r.url}" style="text-decoration:none; color:inherit;" onclick="if(this.href === '#') { alert('🔗 ' + '${r.titulo}' + ' clicado'); return false; }">
+          <div class="resultado">
+            <div class="resultado-tipo">${r.tipo}</div>
+            <div class="resultado-titulo">${r.titulo}</div>
+            <div class="resultado-descricao">${r.descricao}</div>
+          </div>
+        </a>
+      `).join('');
+    }
+  </script>
+</body>
+</html>

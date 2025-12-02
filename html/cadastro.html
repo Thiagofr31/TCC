@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro - Conectal·lub</title>
+    <link rel="icon" href="../img/favicon.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/login.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="logo">
+                <img src="../img/logo.png" alt="Logo Conectal·lub">
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Voltar ao Site</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Cadastro Container -->
+    <div class="login-container">
+        <div class="login-box signup-box">
+            <div class="login-header">
+                <h1 class="login-title">Criar Conta</h1>
+                <p class="login-subtitle">Junte-se à plataforma Conectal·lub</p>
+            </div>
+
+            <form class="login-form" id="cadastroForm" onsubmit="validarCadastro(event)">
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="fullname">Nome Completo</label>
+                        <input 
+                            type="text" 
+                            id="fullname" 
+                            name="fullname" 
+                            placeholder="Seu nome completo" 
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="company">Empresa</label>
+                        <input 
+                            type="text" 
+                            id="company" 
+                            name="company" 
+                            placeholder="Nome da empresa" 
+                            required
+                        >
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">E-mail</label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        placeholder="seu@email.com" 
+                        required
+                    >
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="phone">Telefone</label>
+                        <input 
+                            type="tel" 
+                            id="phone" 
+                            name="phone" 
+                            placeholder="(xx) xxxxx-xxxx"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="position">Cargo</label>
+                        <input 
+                            type="text" 
+                            id="position" 
+                            name="position" 
+                            placeholder="Seu cargo"
+                        >
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="password">Senha</label>
+                        <input 
+                            type="password" 
+                            id="password" 
+                            name="password" 
+                            placeholder="••••••••" 
+                            minlength="8"
+                            required
+                        >
+                        <small class="password-hint">Mínimo 8 caracteres</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirmar Senha</label>
+                        <input 
+                            type="password" 
+                            id="confirmPassword" 
+                            name="confirmPassword" 
+                            placeholder="••••••••" 
+                            required
+                        >
+                    </div>
+                </div>
+
+                <label class="terms-checkbox">
+                    <input type="checkbox" name="terms" required>
+                    <span>Concordo com os <a href="#">Termos de Serviço</a> e <a href="#">Política de Privacidade</a></span>
+                </label>
+
+                <label class="terms-checkbox">
+                    <input type="checkbox" name="newsletter">
+                    <span>Desejo receber atualizações e novidades da Conectal·lub</span>
+                </label>
+
+                <button type="submit" class="login-button">Criar Conta</button>
+            </form>
+
+            <div class="login-divider">ou</div>
+
+            <div class="login-signup">
+                <p>Já tem uma conta? <a href="login.html">Fazer login</a></p>
+            </div>
+
+            <div id="errorMessage" class="error-message" style="display: none;"></div>
+            <div id="successMessage" class="success-message" style="display: none;"></div>
+        </div>
+    </div>
+
+    <script src="../js/script.js"></script>
+    <script>
+        function validarCadastro(event) {
+            event.preventDefault();
+            
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const errorMessage = document.getElementById('errorMessage');
+            const successMessage = document.getElementById('successMessage');
+            const form = document.getElementById('cadastroForm');
+
+            errorMessage.style.display = 'none';
+            successMessage.style.display = 'none';
+
+            // Validar comprimento da senha
+            if (password.length < 8) {
+                errorMessage.textContent = '❌ A senha deve ter no mínimo 8 caracteres!';
+                errorMessage.style.display = 'block';
+                return false;
+            }
+
+            // Validar se as senhas conferem
+            if (password !== confirmPassword) {
+                errorMessage.textContent = '❌ As senhas não conferem!';
+                errorMessage.style.display = 'block';
+                return false;
+            }
+
+            // Se tudo estiver ok, simular envio
+            const button = form.querySelector('button');
+            button.classList.add('loading');
+            button.disabled = true;
+
+            setTimeout(() => {
+                successMessage.textContent = '✅ Conta criada com sucesso! Redirecionando...';
+                successMessage.style.display = 'block';
+                
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 2000);
+            }, 1500);
+
+            return false;
+        }
+    </script>
+</body>
+</html>

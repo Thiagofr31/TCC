@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Logística – Conectal·lub</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Poppins', sans-serif; background: #f1faee; }
+    
+    .container { display: flex; flex-direction: column; min-height: 100vh; }
+    .header { background: white; padding: 1.5rem 2rem; border-bottom: 1px solid #e0e0e0; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+    .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+    .header-top a { padding: 0.6rem 1.2rem; background: linear-gradient(135deg, #7209b7 0%, #5a0a8f 100%); color: white; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 0.9rem; }
+    .page-title { color: #0a0e2a; font-size: 2rem; font-weight: 700; margin: 0; }
+    
+    .content { flex: 1; padding: 2rem; }
+    .section-card { background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 2rem; }
+    .section-title { color: #0a0e2a; font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem; border-bottom: 2px solid #7209b7; padding-bottom: 1rem; }
+    
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+    .stat-box { background: linear-gradient(135deg, #f0e6ff 0%, #f5ebff 100%); padding: 1.5rem; border-radius: 12px; border-left: 4px solid #7209b7; }
+    .stat-label { color: #666; font-size: 0.9rem; margin-bottom: 0.5rem; }
+    .stat-value { color: #7209b7; font-size: 2.2rem; font-weight: 700; }
+    .stat-description { color: #999; font-size: 0.85rem; margin-top: 0.3rem; }
+
+    .members-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+    .member-card { background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); text-align: center; transition: all 0.3s; border: 2px solid transparent; }
+    .member-card:hover { transform: translateY(-3px); box-shadow: 0 8px 16px rgba(0,0,0,0.1); border-color: #7209b7; }
+    .member-avatar { width: 70px; height: 70px; border-radius: 50%; margin: 0 auto 1rem; border: 3px solid #7209b7; }
+    .member-name { color: #0a0e2a; font-weight: 600; margin-bottom: 0.3rem; }
+    .member-role { color: #666; font-size: 0.9rem; }
+
+    .alerts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+    .alert-box { padding: 1.5rem; border-radius: 12px; border-left: 4px solid; }
+    .alert-success { background: #e8f5e9; border-left-color: #28a745; }
+    .alert-info { background: #e3f2fd; border-left-color: #2196f3; }
+    .alert-warning { background: #fff3e0; border-left-color: #ff9800; }
+    .alert-title { font-weight: 600; margin-bottom: 0.5rem; }
+    .alert-success .alert-title { color: #1b5e20; }
+    .alert-info .alert-title { color: #0d47a1; }
+    .alert-warning .alert-title { color: #e65100; }
+    .alert-description { font-size: 0.9rem; }
+    .alert-success .alert-description { color: #2e7d32; }
+    .alert-info .alert-description { color: #1565c0; }
+    .alert-warning .alert-description { color: #e65100; }
+
+    .table-container { overflow-x: auto; background: white; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+    table { width: 100%; border-collapse: collapse; }
+    th { background: linear-gradient(135deg, #7209b7 0%, #5a0a8f 100%); color: white; padding: 1.2rem; text-align: left; font-weight: 600; }
+    td { padding: 1.2rem; border-bottom: 1px solid #f0f0f0; }
+    tr:hover { background: #f9f9f9; }
+    .badge { display: inline-block; padding: 0.4rem 0.8rem; border-radius: 20px; font-size: 0.85rem; font-weight: 600; }
+    .badge-active { background: #e8f5e9; color: #28a745; }
+    .badge-pending { background: #fff3e0; color: #ff9800; }
+    .badge-completed { background: #e3f2fd; color: #2196f3; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="header-top">
+        <h1 class="page-title">📦 Logística</h1>
+        <a href="dashboard.html">← Voltar</a>
+      </div>
+    </header>
+
+    <div class="content">
+      <!-- Estatísticas -->
+      <div class="section-card">
+        <h2 class="section-title">📊 Indicadores Logísticos</h2>
+        <div class="stats-grid">
+          <div class="stat-box">
+            <div class="stat-label">Total de Colaboradores</div>
+            <div class="stat-value">15</div>
+            <div class="stat-description">Equipe de distribuição</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">Entregas Mês</div>
+            <div class="stat-value">845</div>
+            <div class="stat-description">Realizado</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">Taxa Sucesso</div>
+            <div class="stat-value">98.2%</div>
+            <div class="stat-description">Entrega na prazo</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">Custo Médio</div>
+            <div class="stat-value">R$ 45</div>
+            <div class="stat-description">Por entrega</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Avisos Importantes -->
+      <div class="section-card">
+        <h2 class="section-title">🔔 Avisos Importantes</h2>
+        <div class="alerts-grid">
+          <div class="alert-box alert-success">
+            <div class="alert-title">✓ Rota SP Concluída</div>
+            <div class="alert-description">2 horas antes do previsto • Parabéns!</div>
+          </div>
+          <div class="alert-box alert-info">
+            <div class="alert-title">🚚 Manutenção Frota</div>
+            <div class="alert-description">Agendar para próxima semana</div>
+          </div>
+          <div class="alert-box alert-warning">
+            <div class="alert-title">⚠️ Congestionamento</div>
+            <div class="alert-description">Rota RJ pode sofrer atrasos • Monitorar</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Time Logística -->
+      <div class="section-card">
+        <h2 class="section-title">👤 Time do Departamento (15 membros)</h2>
+        <div class="members-grid">
+          <div class="member-card">
+            <img src="https://i.pravatar.cc/150?u=gerente.log@empresa.com" class="member-avatar">
+            <div class="member-name">Bruno Carvalho</div>
+            <div class="member-role">Gerente Logística</div>
+          </div>
+          <div class="member-card">
+            <img src="https://i.pravatar.cc/150?u=coord.dist@empresa.com" class="member-avatar">
+            <div class="member-name">Fernanda Rocha</div>
+            <div class="member-role">Coordenadora Distribuição</div>
+          </div>
+          <div class="member-card">
+            <img src="https://i.pravatar.cc/150?u=motorista1@empresa.com" class="member-avatar">
+            <div class="member-name">Carlos Mendes</div>
+            <div class="member-role">Motorista Senior</div>
+          </div>
+          <div class="member-card">
+            <img src="https://i.pravatar.cc/150?u=motorista2@empresa.com" class="member-avatar">
+            <div class="member-name">Gustavo Dias</div>
+            <div class="member-role">Motorista</div>
+          </div>
+          <div class="member-card">
+            <img src="https://i.pravatar.cc/150?u=armazem@empresa.com" class="member-avatar">
+            <div class="member-name">Roberto Gomes</div>
+            <div class="member-role">Responsável Armazém</div>
+          </div>
+          <div class="member-card">
+            <img src="https://i.pravatar.cc/150?u=auxiliar@empresa.com" class="member-avatar">
+            <div class="member-name">Thiago Santos</div>
+            <div class="member-role">Auxiliar de Armazém</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Rotas de Distribuição -->
+      <div class="section-card">
+        <h2 class="section-title">🗺️ Rotas de Distribuição</h2>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Rota</th>
+                <th>Destino</th>
+                <th>Entregas</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>SP-001</td>
+                <td>São Paulo Capital</td>
+                <td>45</td>
+                <td><span class="badge badge-completed">Concluída</span></td>
+              </tr>
+              <tr>
+                <td>SP-002</td>
+                <td>Interior SP</td>
+                <td>38</td>
+                <td><span class="badge badge-active">Em andamento</span></td>
+              </tr>
+              <tr>
+                <td>RJ-001</td>
+                <td>Rio de Janeiro</td>
+                <td>52</td>
+                <td><span class="badge badge-pending">Atrasada</span></td>
+              </tr>
+              <tr>
+                <td>MG-001</td>
+                <td>Minas Gerais</td>
+                <td>28</td>
+                <td><span class="badge badge-active">Em andamento</span></td>
+              </tr>
+              <tr>
+                <td>ES-001</td>
+                <td>Espírito Santo</td>
+                <td>18</td>
+                <td><span class="badge badge-completed">Concluída</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Frota -->
+      <div class="section-card">
+        <h2 class="section-title">🚛 Frota de Veículos</h2>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Veículo</th>
+                <th>Placa</th>
+                <th>Motorista</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Van 01</td>
+                <td>ABC1D23</td>
+                <td>Carlos Mendes</td>
+                <td><span class="badge badge-active">Disponível</span></td>
+              </tr>
+              <tr>
+                <td>Van 02</td>
+                <td>ABC2D34</td>
+                <td>Gustavo Dias</td>
+                <td><span class="badge badge-completed">Em manutenção</span></td>
+              </tr>
+              <tr>
+                <td>Truck 01</td>
+                <td>DEF1G23</td>
+                <td>Roberto Gomes</td>
+                <td><span class="badge badge-active">Disponível</span></td>
+              </tr>
+              <tr>
+                <td>Truck 02</td>
+                <td>DEF2G34</td>
+                <td>Thiago Santos</td>
+                <td><span class="badge badge-pending">Indisponível</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

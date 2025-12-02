@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Mensagens – Conectal·lub</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Poppins', sans-serif; background: #f1faee; }
+    
+    .chat-container { display: flex; height: 100vh; background: white; }
+    .conversas-lista { width: 340px; background: white; border-right: 1px solid #e0e0e0; overflow-y: auto; box-shadow: 2px 0 10px rgba(0,0,0,0.05); }
+    .conversas-header { padding: 1.5rem; border-bottom: 1px solid #e0e0e0; }
+    .conversas-header a { display: inline-block; padding: 0.6rem 1.2rem; background: linear-gradient(135deg, #7209b7 0%, #5a0a8f 100%); color: white; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 0.9rem; }
+    .conversas-header h2 { margin: 1rem 0 0 0; color: #0a0e2a; font-size: 1.3rem; }
+    
+    .conversa-item { padding: 1rem 1.2rem; border-bottom: 1px solid #f0f0f0; cursor: pointer; transition: all 0.3s; position: relative; }
+    .conversa-item:hover { background: #f9f9f9; }
+    .conversa-item.ativo { background: linear-gradient(135deg, #f0e6ff 0%, #f5ebff 100%); border-left: 4px solid #7209b7; }
+    .conversa-item p { margin: 0; }
+    .conversa-nome { color: #0a0e2a; font-weight: 600; margin-bottom: 0.3rem; font-size: 0.95rem; }
+    .conversa-preview { color: #999; font-size: 0.85rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .conversa-hora { position: absolute; top: 1rem; right: 1.2rem; color: #999; font-size: 0.8rem; }
+    .conversa-status { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 0.5rem; }
+    .status-ativo { background: #28a745; }
+    .status-ausente { background: #ff9800; }
+    .status-offline { background: #999; }
+    
+    .chat-area { flex: 1; display: flex; flex-direction: column; background: linear-gradient(135deg, #f8f9fa 0%, #f1faee 100%); }
+    .chat-header { padding: 1.5rem; background: white; border-bottom: 1px solid #e0e0e0; display: flex; align-items: center; gap: 1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+    .chat-header img { width: 50px; height: 50px; border-radius: 50%; border: 2px solid #7209b7; }
+    .chat-header-info h2 { margin: 0; color: #0a0e2a; font-size: 1.1rem; }
+    .chat-header-info p { margin: 0.2rem 0 0 0; color: #999; font-size: 0.9rem; }
+    
+    .chat-messages { flex: 1; padding: 2rem; overflow-y: auto; display: flex; flex-direction: column; gap: 1rem; }
+    .mensagem { display: flex; gap: 0.8rem; margin-bottom: 0.5rem; animation: slideIn 0.3s ease; }
+    @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    
+    .mensagem.propria { justify-content: flex-end; }
+    .mensagem.outra { justify-content: flex-start; }
+    
+    .msg-content { max-width: 65%; padding: 1rem; border-radius: 12px; word-wrap: break-word; }
+    .mensagem.outra .msg-content { background: white; color: #0a0e2a; border-radius: 12px 12px 12px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+    .mensagem.propria .msg-content { background: linear-gradient(135deg, #7209b7 0%, #5a0a8f 100%); color: white; border-radius: 12px 12px 0 12px; box-shadow: 0 2px 8px rgba(114, 9, 183, 0.25); }
+    
+    .msg-hora { font-size: 0.75rem; opacity: 0.7; margin-top: 0.3rem; }
+    
+    .chat-input-area { padding: 1.5rem; background: white; border-top: 1px solid #e0e0e0; display: flex; gap: 0.8rem; align-items: flex-end; }
+    .chat-input-area input { flex: 1; padding: 0.9rem 1.2rem; border: 2px solid #e0e0e0; border-radius: 10px; font-family: inherit; font-size: 0.95rem; transition: all 0.3s; }
+    .chat-input-area input:focus { outline: none; border-color: #7209b7; background: #f9f5ff; }
+    .chat-input-area button { padding: 0.9rem 2rem; background: linear-gradient(135deg, #7209b7 0%, #5a0a8f 100%); color: white; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 12px rgba(114, 9, 183, 0.25); }
+    .chat-input-area button:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(114, 9, 183, 0.35); }
+    .chat-input-area button:active { transform: translateY(0); }
+  </style>
+</head>
+<body>
+  <div class="chat-container">
+    <div class="conversas-lista">
+      <div class="conversas-header">
+        <a href="dashboard.html">← Voltar</a>
+        <h2>💬 Mensagens</h2>
+      </div>
+
+      <div class="conversa-item ativo" onclick="abrirConversa(1)">
+        <span class="conversa-hora">14:30</span>
+        <div style="display: flex; align-items: center;">
+          <span class="conversa-status status-ativo"></span>
+          <p class="conversa-nome">Gerente de Produção</p>
+        </div>
+        <p class="conversa-preview">Confirme a reunião de hoje às 15h...</p>
+      </div>
+
+      <div class="conversa-item" onclick="abrirConversa(2)">
+        <span class="conversa-hora">14:00</span>
+        <div style="display: flex; align-items: center;">
+          <span class="conversa-status status-ativo"></span>
+          <p class="conversa-nome">Equipe de TI</p>
+        </div>
+        <p class="conversa-preview">Sistema em manutenção das 22h...</p>
+      </div>
+
+      <div class="conversa-item" onclick="abrirConversa(3)">
+        <span class="conversa-hora">13:45</span>
+        <div style="display: flex; align-items: center;">
+          <span class="conversa-status status-ausente"></span>
+          <p class="conversa-nome">RH</p>
+        </div>
+        <p class="conversa-preview">Sua documentação foi atualizada</p>
+      </div>
+
+      <div class="conversa-item" onclick="abrirConversa(4)">
+        <span class="conversa-hora">12:30</span>
+        <div style="display: flex; align-items: center;">
+          <span class="conversa-status status-offline"></span>
+          <p class="conversa-nome">Diretoria</p>
+        </div>
+        <p class="conversa-preview">Relatório mensal disponível</p>
+      </div>
+
+      <div class="conversa-item" onclick="abrirConversa(5)">
+        <span class="conversa-hora">11:15</span>
+        <div style="display: flex; align-items: center;">
+          <span class="conversa-status status-ativo"></span>
+          <p class="conversa-nome">Financeiro</p>
+        </div>
+        <p class="conversa-preview">Aprovações pendentes aguardando...</p>
+      </div>
+    </div>
+
+    <div class="chat-area">
+      <div class="chat-header">
+        <img id="chatAvatar" src="https://i.pravatar.cc/150?u=gestor.producao@empresa.com">
+        <div class="chat-header-info">
+          <h2 id="chatNome">Gerente de Produção</h2>
+          <p id="chatStatus">🟢 Ativo agora</p>
+        </div>
+      </div>
+
+      <div class="chat-messages" id="chatMessages"></div>
+
+      <div class="chat-input-area">
+        <input type="text" id="mensagemInput" placeholder="Digite sua mensagem..." onkeypress="if(event.key==='Enter') enviarMensagem()">
+        <button onclick="enviarMensagem()">Enviar</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const conversasData = {
+      1: {
+        nome: 'Gerente de Produção',
+        email: 'gestor.producao@empresa.com',
+        status: '🟢 Ativo agora',
+        mensagens: [
+          { tipo: 'outra', texto: 'Olá! Tudo bem?', hora: '14:20' },
+          { tipo: 'propria', texto: 'Oi! Tudo certo! 😊', hora: '14:21' },
+          { tipo: 'outra', texto: 'Confirme a reunião de hoje às 15h?', hora: '14:22' },
+          { tipo: 'propria', texto: 'Claro! Estarei lá na hora.', hora: '14:23' },
+          { tipo: 'outra', texto: 'Perfeito! Sala de reuniões 302.', hora: '14:24' }
+        ]
+      },
+      2: {
+        nome: 'Equipe de TI',
+        email: 'ti@empresa.com',
+        status: '🟢 Ativo agora',
+        mensagens: [
+          { tipo: 'outra', texto: 'Oi! Você recebeu o aviso?', hora: '14:00' },
+          { tipo: 'propria', texto: 'Sim! Já recebi. Qual é o horário?', hora: '14:01' },
+          { tipo: 'outra', texto: 'Sistema em manutenção das 22h às 23h', hora: '14:02' },
+          { tipo: 'outra', texto: 'Favor se desconectar antes disso', hora: '14:03' },
+          { tipo: 'propria', texto: 'Entendi! Obrigado pelo aviso.', hora: '14:04' }
+        ]
+      },
+      3: {
+        nome: 'RH',
+        email: 'rh@empresa.com',
+        status: '🟡 Visto há 30 min',
+        mensagens: [
+          { tipo: 'outra', texto: 'Bom dia! Tudo bem?', hora: '13:45' },
+          { tipo: 'outra', texto: 'Sua documentação foi atualizada no sistema', hora: '13:46' },
+          { tipo: 'propria', texto: 'Obrigado pelo aviso!', hora: '13:50' },
+          { tipo: 'outra', texto: 'Verifique assim que possível', hora: '13:52' },
+          { tipo: 'propria', texto: 'Já estou verificando. Valeu!', hora: '13:55' }
+        ]
+      },
+      4: {
+        nome: 'Diretoria',
+        email: 'diretoria@empresa.com',
+        status: '🔴 Offline',
+        mensagens: [
+          { tipo: 'outra', texto: 'Bom dia! Segue o relatório mensal', hora: '12:30' },
+          { tipo: 'outra', texto: 'Verifique os números de produção', hora: '12:31' },
+          { tipo: 'propria', texto: 'Certo! Vou analisar assim que possível.', hora: '12:35' },
+          { tipo: 'outra', texto: 'Precisamos dos números até amanhã', hora: '12:36' },
+          { tipo: 'propria', texto: 'Sem problema. Estará pronto!', hora: '12:40' }
+        ]
+      },
+      5: {
+        nome: 'Financeiro',
+        email: 'financeiro@empresa.com',
+        status: '🟢 Ativo agora',
+        mensagens: [
+          { tipo: 'outra', texto: 'Oi! Como vai?', hora: '11:15' },
+          { tipo: 'propria', texto: 'Oi! Tudo bem! E você?', hora: '11:20' },
+          { tipo: 'outra', texto: 'Temos algumas aprovações pendentes', hora: '11:22' },
+          { tipo: 'outra', texto: 'Você consegue revisar hoje?', hora: '11:23' },
+          { tipo: 'propria', texto: 'Claro! Faço isso agora mesmo!', hora: '11:25' }
+        ]
+      }
+    };
+
+    function carregarMensagens(id) {
+      const messagesDiv = document.getElementById('chatMessages');
+      messagesDiv.innerHTML = '';
+      
+      const conversas = conversasData[id].mensagens;
+      conversas.forEach(msg => {
+        const div = document.createElement('div');
+        div.className = `mensagem ${msg.tipo}`;
+        div.innerHTML = `
+          <div class="msg-content">
+            <p style="margin: 0;">${msg.texto}</p>
+            <div class="msg-hora">${msg.hora}</div>
+          </div>
+        `;
+        messagesDiv.appendChild(div);
+      });
+      
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
+
+    function abrirConversa(id) {
+      document.querySelectorAll('.conversa-item').forEach(el => el.classList.remove('ativo'));
+      event.target.closest('.conversa-item').classList.add('ativo');
+      
+      const conversa = conversasData[id];
+      document.getElementById('chatNome').textContent = conversa.nome;
+      document.getElementById('chatStatus').textContent = conversa.status;
+      document.getElementById('chatAvatar').src = `https://i.pravatar.cc/150?u=${encodeURIComponent(conversa.email)}`;
+      
+      carregarMensagens(id);
+    }
+
+    function enviarMensagem() {
+      const input = document.getElementById('mensagemInput');
+      const mensagem = input.value.trim();
+      
+      if(mensagem) {
+        const messagesDiv = document.getElementById('chatMessages');
+        const novaMsg = document.createElement('div');
+        novaMsg.className = 'mensagem propria';
+        const agora = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+        novaMsg.innerHTML = `<div class="msg-content"><p style="margin: 0;">${mensagem}</p><div class="msg-hora">${agora}</div></div>`;
+        messagesDiv.appendChild(novaMsg);
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        input.value = '';
+      }
+    }
+
+    // Carregar conversa inicial
+    carregarMensagens(1);
+  </script>
+</body>
+</html>

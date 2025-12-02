@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Financeiro – Conectal·lub</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Poppins', sans-serif; background: #f1faee; }
+    
+    .container { display: flex; flex-direction: column; min-height: 100vh; }
+    .header { background: white; padding: 1.5rem 2rem; border-bottom: 1px solid #e0e0e0; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+    .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+    .header-top a { padding: 0.6rem 1.2rem; background: linear-gradient(135deg, #7209b7 0%, #5a0a8f 100%); color: white; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 0.9rem; }
+    .page-title { color: #0a0e2a; font-size: 2rem; font-weight: 700; margin: 0; }
+    
+    .content { flex: 1; padding: 2rem; }
+    .section-card { background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 2rem; }
+    .section-title { color: #0a0e2a; font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem; border-bottom: 2px solid #7209b7; padding-bottom: 1rem; }
+    
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+    .stat-box { background: linear-gradient(135deg, #f0e6ff 0%, #f5ebff 100%); padding: 1.5rem; border-radius: 12px; border-left: 4px solid #7209b7; }
+    .stat-label { color: #666; font-size: 0.9rem; margin-bottom: 0.5rem; }
+    .stat-value { color: #7209b7; font-size: 2.2rem; font-weight: 700; }
+    .stat-description { color: #999; font-size: 0.85rem; margin-top: 0.3rem; }
+
+    .members-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+    .member-card { background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); text-align: center; transition: all 0.3s; border: 2px solid transparent; }
+    .member-card:hover { transform: translateY(-3px); box-shadow: 0 8px 16px rgba(0,0,0,0.1); border-color: #7209b7; }
+    .member-avatar { width: 70px; height: 70px; border-radius: 50%; margin: 0 auto 1rem; border: 3px solid #7209b7; }
+    .member-name { color: #0a0e2a; font-weight: 600; margin-bottom: 0.3rem; }
+    .member-role { color: #666; font-size: 0.9rem; }
+
+    .alerts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+    .alert-box { padding: 1.5rem; border-radius: 12px; border-left: 4px solid; }
+    .alert-success { background: #e8f5e9; border-left-color: #28a745; }
+    .alert-info { background: #e3f2fd; border-left-color: #2196f3; }
+    .alert-warning { background: #fff3e0; border-left-color: #ff9800; }
+    .alert-title { font-weight: 600; margin-bottom: 0.5rem; }
+    .alert-success .alert-title { color: #1b5e20; }
+    .alert-info .alert-title { color: #0d47a1; }
+    .alert-warning .alert-title { color: #e65100; }
+    .alert-description { font-size: 0.9rem; }
+    .alert-success .alert-description { color: #2e7d32; }
+    .alert-info .alert-description { color: #1565c0; }
+    .alert-warning .alert-description { color: #e65100; }
+
+    .table-container { overflow-x: auto; background: white; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+    table { width: 100%; border-collapse: collapse; }
+    th { background: linear-gradient(135deg, #7209b7 0%, #5a0a8f 100%); color: white; padding: 1.2rem; text-align: left; font-weight: 600; }
+    td { padding: 1.2rem; border-bottom: 1px solid #f0f0f0; }
+    tr:hover { background: #f9f9f9; }
+    .badge { display: inline-block; padding: 0.4rem 0.8rem; border-radius: 20px; font-size: 0.85rem; font-weight: 600; }
+    .badge-active { background: #e8f5e9; color: #28a745; }
+    .badge-pending { background: #fff3e0; color: #ff9800; }
+    .badge-completed { background: #e3f2fd; color: #2196f3; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="header-top">
+        <h1 class="page-title">📊 Financeiro</h1>
+        <a href="dashboard.html">← Voltar</a>
+      </div>
+    </header>
+
+    <div class="content">
+      <!-- Estatísticas -->
+      <div class="section-card">
+        <h2 class="section-title">💰 Indicadores Financeiros</h2>
+        <div class="stats-grid">
+          <div class="stat-box">
+            <div class="stat-label">Total de Colaboradores</div>
+            <div class="stat-value">6</div>
+            <div class="stat-description">Especialistas financeiros</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">Faturamento Mensal</div>
+            <div class="stat-value">R$ 2.5M</div>
+            <div class="stat-description">Janeiro 2025</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">Margem Operacional</div>
+            <div class="stat-value">18.5%</div>
+            <div class="stat-description">Acima da projeção</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">Contas a Receber</div>
+            <div class="stat-value">R$ 1.8M</div>
+            <div class="stat-description">Pendentes</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Avisos Importantes -->
+      <div class="section-card">
+        <h2 class="section-title">🔔 Avisos Importantes</h2>
+        <div class="alerts-grid">
+          <div class="alert-box alert-success">
+            <div class="alert-title">✓ Pagamento de Fornecedores</div>
+            <div class="alert-description">Processado com sucesso • Dia 15/01/2025</div>
+          </div>
+          <div class="alert-box alert-warning">
+            <div class="alert-title">⚠️ Fechamento Fiscal</div>
+            <div class="alert-description">Prazo até 25/01 • Não perca!</div>
+          </div>
+          <div class="alert-box alert-info">
+            <div class="alert-title">📋 Auditoria Interna</div>
+            <div class="alert-description">Programada para 30/01/2025</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Time Financeiro -->
+      <div class="section-card">
+        <h2 class="section-title">👤 Time do Departamento (6 membros)</h2>
+        <div class="members-grid">
+          <div class="member-card">
+            <img src="https://i.pravatar.cc/150?u=gerente.fin@empresa.com" class="member-avatar">
+            <div class="member-name">Mariana Caldas</div>
+            <div class="member-role">Gerente Financeiro</div>
+          </div>
+          <div class="member-card">
+            <img src="https://i.pravatar.cc/150?u=controller@empresa.com" class="member-avatar">
+            <div class="member-name">Paulo Mendes</div>
+            <div class="member-role">Controller</div>
+          </div>
+          <div class="member-card">
+            <img src="https://i.pravatar.cc/150?u=contador@empresa.com" class="member-avatar">
+            <div class="member-name">Fabiana Santos</div>
+            <div class="member-role">Contadora</div>
+          </div>
+          <div class="member-card">
+            <img src="https://i.pravatar.cc/150?u=analista.fin1@empresa.com" class="member-avatar">
+            <div class="member-name">Roberto Dias</div>
+            <div class="member-role">Analista Financeiro</div>
+          </div>
+          <div class="member-card">
+            <img src="https://i.pravatar.cc/150?u=analista.fin2@empresa.com" class="member-avatar">
+            <div class="member-name">Jessica Costa</div>
+            <div class="member-role">Analista Contas a Receber</div>
+          </div>
+          <div class="member-card">
+            <img src="https://i.pravatar.cc/150?u=asst.fin@empresa.com" class="member-avatar">
+            <div class="member-name">Gustavo Alves</div>
+            <div class="member-role">Assistente Financeiro</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Relatórios Financeiros -->
+      <div class="section-card">
+        <h2 class="section-title">📈 Relatórios Financeiros</h2>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Relatório</th>
+                <th>Data</th>
+                <th>Status</th>
+                <th>Ação</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Demonstrativo de Resultado</td>
+                <td>15/01/2025</td>
+                <td><span class="badge badge-completed">Disponível</span></td>
+                <td><a href="#" style="color: #7209b7; text-decoration: none; font-weight: 600;">📥 Baixar</a></td>
+              </tr>
+              <tr>
+                <td>Fluxo de Caixa</td>
+                <td>15/01/2025</td>
+                <td><span class="badge badge-completed">Disponível</span></td>
+                <td><a href="#" style="color: #7209b7; text-decoration: none; font-weight: 600;">📥 Baixar</a></td>
+              </tr>
+              <tr>
+                <td>Balanço Patrimonial</td>
+                <td>20/01/2025</td>
+                <td><span class="badge badge-pending">Em elaboração</span></td>
+                <td><a href="#" style="color: #7209b7; text-decoration: none; font-weight: 600;">⏳ Aguarde</a></td>
+              </tr>
+              <tr>
+                <td>Análise de Custos</td>
+                <td>18/01/2025</td>
+                <td><span class="badge badge-completed">Disponível</span></td>
+                <td><a href="#" style="color: #7209b7; text-decoration: none; font-weight: 600;">📥 Baixar</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Metas e Objetivos -->
+      <div class="section-card">
+        <h2 class="section-title">🎯 Metas 2025</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+          <div style="background: #f9f5ff; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #7209b7;">
+            <h4 style="color: #0a0e2a; margin-bottom: 0.5rem;">Crescimento</h4>
+            <p style="color: #666; font-size: 0.9rem;">Faturamento +20% • R$ 30M anual</p>
+          </div>
+          <div style="background: #f0f8ff; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #2196f3;">
+            <h4 style="color: #0a0e2a; margin-bottom: 0.5rem;">Redução de Custos</h4>
+            <p style="color: #666; font-size: 0.9rem;">Diminuir 8% despesas operacionais</p>
+          </div>
+          <div style="background: #f0fff4; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #28a745;">
+            <h4 style="color: #0a0e2a; margin-bottom: 0.5rem;">Fluxo de Caixa</h4>
+            <p style="color: #666; font-size: 0.9rem;">Melhorar gestão • +15% eficiência</p>
+          </div>
+          <div style="background: #fffef0; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #ff9800;">
+            <h4 style="color: #0a0e2a; margin-bottom: 0.5rem;">Margem Lucro</h4>
+            <p style="color: #666; font-size: 0.9rem;">Atingir 20% de margem</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Meu Perfil – Conectal·lub</title>
+  <link rel="stylesheet" href="../css/dashboard.css">
+</head>
+<body>
+  <div style="display:flex; height:100vh; background:#f1faee;">
+    <div style="flex:1; padding:2rem; overflow-y:auto;">
+      <a href="dashboard.html" style="display:inline-block; margin-bottom:1.5rem; padding:0.6rem 1.2rem; background:#7209b7; color:white; text-decoration:none; border-radius:8px; font-weight:600;">← Voltar</a>
+      
+      <h1 style="color:#0a0e2a; margin-bottom:2rem;">👤 Meu Perfil</h1>
+
+      <div style="background:white; padding:3rem; border-radius:12px; margin-bottom:1.5rem; box-shadow:0 2px 8px rgba(0,0,0,0.05); text-align:center;">
+        <img id="perfilAvatar" src="https://i.pravatar.cc/200?u=usuario@empresa.com" style="width:120px; height:120px; border-radius:50%; margin-bottom:1.5rem; border:4px solid #7209b7;">
+        <h2 id="perfilNome" style="color:#0a0e2a; margin-bottom:0.5rem;">Usuário</h2>
+        <p id="perfilEmail" style="color:#666; font-size:1rem; margin-bottom:1.5rem;">usuario@empresa.com</p>
+        <button onclick="editarFoto()" style="padding:0.8rem 1.5rem; background:#7209b7; color:white; border:none; border-radius:8px; font-weight:600; cursor:pointer; margin-right:0.5rem;">📷 Alterar Foto</button>
+        <button onclick="editarPerfil()" style="padding:0.8rem 1.5rem; background:#e63946; color:white; border:none; border-radius:8px; font-weight:600; cursor:pointer;">✏️ Editar Perfil</button>
+      </div>
+
+      <div style="background:white; padding:2rem; border-radius:12px; margin-bottom:1.5rem; box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+        <h3 style="color:#0a0e2a; margin-bottom:1.5rem;">📋 Informações Pessoais</h3>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem;">
+          <div>
+            <p style="color:#666; font-size:0.9rem; margin-bottom:0.3rem;">Nome Completo</p>
+            <p id="infoNome" style="color:#0a0e2a; font-weight:600;">João Silva Santos</p>
+          </div>
+          <div>
+            <p style="color:#666; font-size:0.9rem; margin-bottom:0.3rem;">E-mail</p>
+            <p id="infoEmail" style="color:#0a0e2a; font-weight:600;">joao.silva@empresa.com</p>
+          </div>
+          <div>
+            <p style="color:#666; font-size:0.9rem; margin-bottom:0.3rem;">Telefone</p>
+            <p style="color:#0a0e2a; font-weight:600;">(11) 98765-4321</p>
+          </div>
+          <div>
+            <p style="color:#666; font-size:0.9rem; margin-bottom:0.3rem;">Data de Nascimento</p>
+            <p style="color:#0a0e2a; font-weight:600;">15/05/1990</p>
+          </div>
+        </div>
+      </div>
+
+      <div style="background:white; padding:2rem; border-radius:12px; margin-bottom:1.5rem; box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+        <h3 style="color:#0a0e2a; margin-bottom:1.5rem;">🏢 Informações Profissionais</h3>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem;">
+          <div>
+            <p style="color:#666; font-size:0.9rem; margin-bottom:0.3rem;">Departamento</p>
+            <p style="color:#0a0e2a; font-weight:600;">Produção</p>
+          </div>
+          <div>
+            <p style="color:#666; font-size:0.9rem; margin-bottom:0.3rem;">Cargo</p>
+            <p style="color:#0a0e2a; font-weight:600;">Gerente de Produção</p>
+          </div>
+          <div>
+            <p style="color:#666; font-size:0.9rem; margin-bottom:0.3rem;">Data de Admissão</p>
+            <p style="color:#0a0e2a; font-weight:600;">10/01/2020</p>
+          </div>
+          <div>
+            <p style="color:#666; font-size:0.9rem; margin-bottom:0.3rem;">Supervisor</p>
+            <p style="color:#0a0e2a; font-weight:600;">Carlos Mendes</p>
+          </div>
+        </div>
+      </div>
+
+      <div style="background:white; padding:2rem; border-radius:12px; margin-bottom:1.5rem; box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+        <h3 style="color:#0a0e2a; margin-bottom:1.5rem;">🔐 Segurança</h3>
+        <button onclick="alterarSenha()" style="display:block; width:100%; padding:1rem; background:#fff3cd; color:#0a0e2a; border:1px solid #ffc107; border-radius:8px; font-weight:600; cursor:pointer; text-align:left;">🔑 Alterar Senha</button>
+        <button onclick="ativarAutenticacao()" style="display:block; width:100%; padding:1rem; background:#d4edda; color:#155724; border:1px solid #28a745; border-radius:8px; font-weight:600; cursor:pointer; margin-top:0.8rem; text-align:left;">✅ Autenticação em Duas Etapas</button>
+      </div>
+
+      <div style="background:white; padding:2rem; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+        <h3 style="color:#0a0e2a; margin-bottom:1.5rem;">⚙️ Preferências</h3>
+        <label style="display:flex; align-items:center; margin-bottom:1rem; cursor:pointer;">
+          <input type="checkbox" checked style="width:20px; height:20px; margin-right:0.8rem; cursor:pointer;">
+          <span style="color:#0a0e2a;">Receber notificações por e-mail</span>
+        </label>
+        <label style="display:flex; align-items:center; margin-bottom:1rem; cursor:pointer;">
+          <input type="checkbox" checked style="width:20px; height:20px; margin-right:0.8rem; cursor:pointer;">
+          <span style="color:#0a0e2a;">Receber atualizações do departamento</span>
+        </label>
+        <label style="display:flex; align-items:center; cursor:pointer;">
+          <input type="checkbox" style="width:20px; height:20px; margin-right:0.8rem; cursor:pointer;">
+          <span style="color:#0a0e2a;">Publicar atividades no feed</span>
+        </label>
+      </div>
+
+      <button onclick="logout()" style="width:100%; margin-top:2rem; padding:1rem; background:#d32f2f; color:white; border:none; border-radius:8px; font-weight:600; cursor:pointer; font-size:1rem;">🚪 Sair da Conta</button>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const usuario = localStorage.getItem('usuarioLogado') || 'usuario@empresa.com';
+      document.getElementById('perfilEmail').textContent = usuario;
+      document.getElementById('infoEmail').textContent = usuario;
+      document.getElementById('perfilNome').textContent = usuario.split('@')[0];
+      document.getElementById('infoNome').textContent = usuario.split('@')[0];
+      
+      const avatarUrl = localStorage.getItem('usuarioFoto') || `https://i.pravatar.cc/200?u=${encodeURIComponent(usuario)}`;
+      document.getElementById('perfilAvatar').src = avatarUrl;
+    });
+
+    function editarFoto() {
+      alert('📷 Funcionalidade de upload de foto em desenvolvimento');
+    }
+
+    function editarPerfil() {
+      alert('✏️ Funcionalidade de edição de perfil em desenvolvimento');
+    }
+
+    function alterarSenha() {
+      alert('🔑 Funcionalidade de alteração de senha em desenvolvimento');
+    }
+
+    function ativarAutenticacao() {
+      alert('✅ Funcionalidade de autenticação 2FA em desenvolvimento');
+    }
+
+    function logout() {
+      if(confirm('Tem certeza que deseja sair?')) {
+        localStorage.removeItem('usuarioLogado');
+        window.location.href = 'login.html';
+      }
+    }
+  </script>
+</body>
+</html>

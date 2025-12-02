@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>RH – Conectal·lub</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Poppins', sans-serif; background: #f1faee; }
+    
+    .container { display: flex; flex-direction: column; min-height: 100vh; }
+    .header { background: white; padding: 1.5rem 2rem; border-bottom: 1px solid #e0e0e0; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+    .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+    .header-top a { padding: 0.6rem 1.2rem; background: linear-gradient(135deg, #7209b7 0%, #5a0a8f 100%); color: white; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 0.9rem; }
+    .page-title { color: #0a0e2a; font-size: 2rem; font-weight: 700; margin: 0; }
+    
+    .content { flex: 1; padding: 2rem; }
+    .section-card { background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 2rem; }
+    .section-title { color: #0a0e2a; font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem; border-bottom: 2px solid #7209b7; padding-bottom: 1rem; }
+    
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+    .stat-box { background: linear-gradient(135deg, #f0e6ff 0%, #f5ebff 100%); padding: 1.5rem; border-radius: 12px; border-left: 4px solid #7209b7; }
+    .stat-label { color: #666; font-size: 0.9rem; margin-bottom: 0.5rem; }
+    .stat-value { color: #7209b7; font-size: 2.2rem; font-weight: 700; }
+    .stat-description { color: #999; font-size: 0.85rem; margin-top: 0.3rem; }
+
+    .members-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+    .member-card { background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); text-align: center; transition: all 0.3s; border: 2px solid transparent; }
+    .member-card:hover { transform: translateY(-3px); box-shadow: 0 8px 16px rgba(0,0,0,0.1); border-color: #7209b7; }
+    .member-avatar { width: 70px; height: 70px; border-radius: 50%; margin: 0 auto 1rem; border: 3px solid #7209b7; }
+    .member-name { color: #0a0e2a; font-weight: 600; margin-bottom: 0.3rem; }
+    .member-role { color: #666; font-size: 0.9rem; }
+
+    .alerts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+    .alert-box { padding: 1.5rem; border-radius: 12px; border-left: 4px solid; }
+    .alert-success { background: #e8f5e9; border-left-color: #28a745; }
+    .alert-info { background: #e3f2fd; border-left-color: #2196f3; }
+    .alert-warning { background: #fff3e0; border-left-color: #ff9800; }
+    .alert-title { font-weight: 600; margin-bottom: 0.5rem; }
+    .alert-success .alert-title { color: #1b5e20; }
+    .alert-info .alert-title { color: #0d47a1; }
+    .alert-warning .alert-title { color: #e65100; }
+    .alert-description { font-size: 0.9rem; }
+    .alert-success .alert-description { color: #2e7d32; }
+    .alert-info .alert-description { color: #1565c0; }
+    .alert-warning .alert-description { color: #e65100; }
+
+    .table-container { overflow-x: auto; background: white; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+    table { width: 100%; border-collapse: collapse; }
+    th { background: linear-gradient(135deg, #7209b7 0%, #5a0a8f 100%); color: white; padding: 1.2rem; text-align: left; font-weight: 600; }
+    td { padding: 1.2rem; border-bottom: 1px solid #f0f0f0; }
+    tr:hover { background: #f9f9f9; }
+    .badge { display: inline-block; padding: 0.4rem 0.8rem; border-radius: 20px; font-size: 0.85rem; font-weight: 600; }
+    .badge-active { background: #e8f5e9; color: #28a745; }
+    .badge-pending { background: #fff3e0; color: #ff9800; }
+    .badge-completed { background: #e3f2fd; color: #2196f3; }
+
+    .btn { padding: 0.8rem 1.5rem; background: linear-gradient(135deg, #7209b7 0%, #5a0a8f 100%); color: white; text-decoration: none; border-radius: 8px; font-weight: 600; border: none; cursor: pointer; transition: all 0.3s; }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(114, 9, 183, 0.3); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-top">
+        <h1 class="page-title">👥 Recursos Humanos</h1>
+        <a href="dashboard.html">← Voltar</a>
+      </div>
+    </header>
+
+    <!-- Content -->
+    <div class="content">
+      <!-- Estatísticas -->
+      <div class="section-card">
+        <h2 class="section-title">📊 Indicadores RH</h2>
+        <div class="stats-grid">
+          <div class="stat-box">
+            <div class="stat-label">Total de Colaboradores</div>
+            <div class="stat-value">234</div>
+            <div class="stat-description">Em toda a empresa</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">Novos no Mês</div>
+            <div class="stat-value">8</div>
+            <div class="stat-description">Admissões realizadas</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">Saídas (últimos 30 dias)</div>
+            <div class="stat-value">2</div>
+            <div class="stat-description">Demissões/Pedidos</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">Taxa de Retenção</div>
+            <div class="stat-value">98.2%</div>
+            <div class="stat-description">Colaboradores retidos</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Avisos Importantes -->
+      <div class="section-card">
+        <h2 class="section-title">🔔 Avisos Importantes</h2>
+        <div class="alerts-grid">
+          <div class="alert-box alert-success">
+            <div class="alert-title">✓ Período de férias aberto</div>
+            <div class="alert-description">Solicitações aceitas até 20/01/2025. Não perca o prazo!</div>
+          </div>
+          <div class="alert-box alert-info">
+            <div class="alert-title">👥 Integração de novos colaboradores</div>
+            <div class="alert-description">Próxima turma iniciando em 03/02/2025</div>
+          </div>
+          <div class="alert-box alert-warning">
+            <div class="alert-title">⚠️ Avaliação de desempenho</div>
+            <div class="alert-description">Período: 10/02 a 28/02/2025. Prepare-se!</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Time RH -->
+      <div class="section-card">
+        <h2 class="section-title">👤 Time do Departamento (8 membros)</h2>
+        <div class="members-grid">
+          <div class="member-card">
+            <img src="https://i.pravatar.cc/150?u=gerente.rh@empresa.com" class="member-avatar">
+            <div class="member-name">Carlos Silva</div>
+            <div class="member-role">Gerente de RH</div>
+          </div>
+          <div class="member-card">
+            <img src="https://i.pravatar.cc/150?u=especial.rh1@empresa.com" class="member-avatar">
+            <div class="member-name">Maria Santos</div>
+            <div class="member-role">Analista de Recrutamento</div>
+          </div>
+          <div class="member-card">
+            <img src="https://i.pravatar.cc/150?u=especial.rh2@empresa.com" class="member-avatar">
+            <div class="member-name">João Oliveira</div>
+            <div class="member-role">Especialista em Treinamento</div>
+          </div>
+          <div class="member-card">
+            <img src="https://i.pravatar.cc/150?u=especial.rh3@empresa.com" class="member-avatar">
+            <div class="member-name">Ana Costa</div>
+            <div class="member-role">Analista de Folha</div>
+          </div>
+          <div class="member-card">
+            <img src="https://i.pravatar.cc/150?u=especial.rh4@empresa.com" class="member-avatar">
+            <div class="member-name">Pedro Alves</div>
+            <div class="member-role">Coordenador de Benefícios</div>
+          </div>
+          <div class="member-card">
+            <img src="https://i.pravatar.cc/150?u=especial.rh5@empresa.com" class="member-avatar">
+            <div class="member-name">Julia Martins</div>
+            <div class="member-role">Assistente de RH</div>
+          </div>
+          <div class="member-card">
+            <img src="https://i.pravatar.cc/150?u=especial.rh6@empresa.com" class="member-avatar">
+            <div class="member-name">Lucas Ferreira</div>
+            <div class="member-role">Assistente de RH</div>
+          </div>
+          <div class="member-card">
+            <img src="https://i.pravatar.cc/150?u=especial.rh7@empresa.com" class="member-avatar">
+            <div class="member-name">Beatriz Lima</div>
+            <div class="member-role">Estagiária de RH</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Processos em andamento -->
+      <div class="section-card">
+        <h2 class="section-title">⚙️ Processos em Andamento</h2>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Processo</th>
+                <th>Descrição</th>
+                <th>Data de Início</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Recrutamento Produção</td>
+                <td>Seleção de 5 operadores</td>
+                <td>05/01/2025</td>
+                <td><span class="badge badge-pending">Em andamento</span></td>
+              </tr>
+              <tr>
+                <td>Avaliação Desempenho</td>
+                <td>Avaliação anual de todos</td>
+                <td>01/02/2025</td>
+                <td><span class="badge badge-pending">Programado</span></td>
+              </tr>
+              <tr>
+                <td>Integração Novos</td>
+                <td>Onboarding de 3 colaboradores</td>
+                <td>03/02/2025</td>
+                <td><span class="badge badge-pending">Planejado</span></td>
+              </tr>
+              <tr>
+                <td>Treinamento ERP</td>
+                <td>Capacitação novo sistema</td>
+                <td>20/01/2025</td>
+                <td><span class="badge badge-active">Ativo</span></td>
+              </tr>
+              <tr>
+                <td>Pesquisa de Clima</td>
+                <td>Avaliação satisfação colaboradores</td>
+                <td>15/01/2025</td>
+                <td><span class="badge badge-completed">Concluído</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Benefícios e Políticas -->
+      <div class="section-card">
+        <h2 class="section-title">🎁 Benefícios e Políticas</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+          <div style="background: #f9f5ff; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #7209b7;">
+            <h4 style="color: #0a0e2a; margin-bottom: 0.5rem;">Férias</h4>
+            <p style="color: #666; font-size: 0.9rem;">30 dias por ano • Período aberto até 20/01/2025</p>
+          </div>
+          <div style="background: #f0f8ff; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #2196f3;">
+            <h4 style="color: #0a0e2a; margin-bottom: 0.5rem;">Seguro Saúde</h4>
+            <p style="color: #666; font-size: 0.9rem;">Cobertura completa • Incluindo dependentes</p>
+          </div>
+          <div style="background: #f0fff4; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #28a745;">
+            <h4 style="color: #0a0e2a; margin-bottom: 0.5rem;">Vale Alimentação</h4>
+            <p style="color: #666; font-size: 0.9rem;">R$ 600/mês • Creditado até dia 5</p>
+          </div>
+          <div style="background: #fffef0; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #ff9800;">
+            <h4 style="color: #0a0e2a; margin-bottom: 0.5rem;">Vale Transporte</h4>
+            <p style="color: #666; font-size: 0.9rem;">100% do valor • Sem descontos</p>
+          </div>
+          <div style="background: #fce4ec; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #e91e63;">
+            <h4 style="color: #0a0e2a; margin-bottom: 0.5rem;">PLR</h4>
+            <p style="color: #666; font-size: 0.9rem;">Participação nos lucros • Paga em março</p>
+          </div>
+          <div style="background: #f3e5f5; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #9c27b0;">
+            <h4 style="color: #0a0e2a; margin-bottom: 0.5rem;">Educação</h4>
+            <p style="color: #666; font-size: 0.9rem;">Bolsa 50% • Cursos e treinamentos</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

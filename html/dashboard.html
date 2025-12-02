@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Dashboard - Conectal·lub</title>
+  <link rel="icon" href="../img/favicon.png" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Poppins', sans-serif; background: #f1faee; }
+    
+    .container { display: flex; height: 100vh; }
+    .sidebar { width: 250px; background: linear-gradient(135deg, #0a0e2a 0%, #1a1f3a 100%); padding: 1.5rem; overflow-y: auto; box-shadow: 2px 0 10px rgba(0,0,0,0.1); }
+    .sidebar h1 { color: white; font-size: 1.5rem; margin-bottom: 2.5rem; font-weight: 700; letter-spacing: 0.5px; }
+    .nav-link { display: flex; align-items: center; gap: 0.8rem; padding: 0.9rem 1.2rem; color: rgba(255,255,255,0.7); text-decoration: none; border-radius: 8px; cursor: pointer; margin-bottom: 0.3rem; transition: all 0.3s ease; font-weight: 500; }
+    .nav-link:hover { background: rgba(255,255,255,0.1); color: white; transform: translateX(5px); }
+    .nav-link.active { background: linear-gradient(135deg, #7209b7 0%, #5a0a8f 100%); color: white; box-shadow: 0 4px 15px rgba(114, 9, 183, 0.3); }
+    
+    .main { flex: 1; display: flex; flex-direction: column; }
+    .header { background: white; padding: 1.2rem 2rem; border-bottom: 1px solid #e0e0e0; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+    .header-left { display: flex; gap: 0.8rem; flex: 1; max-width: 450px; }
+    .header-left input { flex: 1; padding: 0.75rem 1rem; border: 2px solid #e0e0e0; border-radius: 10px; font-family: inherit; font-size: 0.95rem; transition: all 0.3s; }
+    .header-left input:focus { outline: none; border-color: #7209b7; background: #f9f5ff; box-shadow: 0 0 0 3px rgba(114, 9, 183, 0.1); }
+    .header-left button { padding: 0.75rem 1.5rem; background: linear-gradient(135deg, #7209b7 0%, #5a0a8f 100%); color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: 600; transition: all 0.3s; box-shadow: 0 4px 12px rgba(114, 9, 183, 0.3); }
+    .header-left button:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(114, 9, 183, 0.4); }
+    .header-right { display: flex; align-items: center; gap: 2rem; }
+    .notification { position: relative; background: none; border: none; font-size: 1.3rem; cursor: pointer; transition: all 0.3s; }
+    .notification:hover { transform: scale(1.1); }
+    .badge { position: absolute; top: -8px; right: -8px; width: 22px; height: 22px; background: linear-gradient(135deg, #d32f2f 0%, #b71c1c 100%); color: white; border-radius: 50%; font-size: 0.7rem; display: flex; align-items: center; justify-content: center; font-weight: 700; box-shadow: 0 2px 8px rgba(211, 47, 47, 0.3); }
+    .user-section { display: flex; align-items: center; gap: 0.8rem; cursor: pointer; padding: 0.5rem 1rem; border-radius: 10px; transition: all 0.3s; }
+    .user-section:hover { background: #f5f5f5; }
+    .user-avatar { width: 40px; height: 40px; border-radius: 50%; border: 2px solid #7209b7; }
+    .user-name { color: #0a0e2a; font-weight: 600; font-size: 0.95rem; }
+    .user-role { color: #999; font-size: 0.85rem; }
+    
+    .content { flex: 1; overflow-y: auto; padding: 2rem; }
+    .section { display: none; }
+    .section.show { display: block; }
+    
+    .page-title { color: #0a0e2a; margin-bottom: 2rem; font-size: 1.8rem; font-weight: 700; }
+    .card { background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 1.5rem; }
+    .card h2 { color: #0a0e2a; margin-bottom: 1.5rem; }
+    .card h3 { color: #0a0e2a; margin-bottom: 1rem; }
+    
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; }
+    .grid-full { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+    
+    .post { background: white; padding: 1.5rem; border-radius: 12px; margin-bottom: 1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border-left: 4px solid transparent; transition: all 0.3s; }
+    .post:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
+    .post-header { display: flex; gap: 1rem; margin-bottom: 1rem; }
+    .avatar { width: 50px; height: 50px; border-radius: 50%; border: 2px solid #7209b7; }
+    .post-info h3 { margin: 0; color: #0a0e2a; font-size: 1rem; font-weight: 600; }
+    .post-time { margin: 0.3rem 0 0 0; color: #999; font-size: 0.85rem; }
+    .post-content { color: #333; line-height: 1.6; }
+    
+    .dept-card { background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); cursor: pointer; transition: all 0.3s; border: 2px solid transparent; }
+    .dept-card:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(0,0,0,0.12); border-color: #7209b7; }
+    .dept-card h3 { margin: 0 0 0.5rem 0; color: #0a0e2a; font-weight: 600; font-size: 1.3rem; }
+    .dept-card p { margin: 0.5rem 0 1rem 0; color: #666; font-size: 0.95rem; }
+    
+    .btn { padding: 0.8rem 1.5rem; background: linear-gradient(135deg, #7209b7 0%, #5a0a8f 100%); color: white; text-decoration: none; border-radius: 8px; font-weight: 600; border: none; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 12px rgba(114, 9, 183, 0.25); }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(114, 9, 183, 0.35); }
+    .btn-secondary { background: transparent; color: #7209b7; border: 2px solid #7209b7; box-shadow: none; }
+    .btn-secondary:hover { background: #7209b7; color: white; box-shadow: 0 4px 12px rgba(114, 9, 183, 0.25); }
+
+    .message-card { background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); cursor: pointer; transition: all 0.3s; border-left: 4px solid #7209b7; }
+    .message-card:hover { transform: translateY(-3px); box-shadow: 0 12px 24px rgba(0,0,0,0.12); }
+    .message-header { display: flex; gap: 1rem; align-items: center; margin-bottom: 1rem; }
+    .message-avatar { width: 50px; height: 50px; border-radius: 50%; border: 2px solid #7209b7; }
+    .message-info h3 { margin: 0; color: #0a0e2a; font-weight: 600; font-size: 1rem; }
+    .message-time { margin: 0.2rem 0 0 0; color: #999; font-size: 0.85rem; }
+    .message-preview { color: #555; font-size: 0.95rem; line-height: 1.4; }
+    .message-badge { display: inline-block; background: #7209b7; color: white; padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.8rem; margin-top: 0.5rem; }
+
+    .event-card { background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); display: flex; gap: 1.5rem; margin-bottom: 1rem; transition: all 0.3s; border-left: 4px solid #7209b7; }
+    .event-card:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
+    .event-date { background: linear-gradient(135deg, #7209b7 0%, #5a0a8f 100%); color: white; padding: 1.2rem; border-radius: 8px; text-align: center; min-width: 80px; box-shadow: 0 4px 12px rgba(114, 9, 183, 0.3); }
+    .event-date-day { font-weight: 600; font-size: 1.6rem; }
+    .event-date-month { font-size: 0.9rem; opacity: 0.9; }
+    .event-info h3 { margin: 0 0 0.3rem 0; color: #0a0e2a; font-weight: 600; }
+    .event-info p { margin: 0; color: #666; font-size: 0.9rem; }
+
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+    .stat-card { background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); text-align: center; }
+    .stat-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+    .stat-value { color: #7209b7; font-size: 2rem; font-weight: 700; margin-bottom: 0.3rem; }
+    .stat-label { color: #666; font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <h1>🎯 Conectal·lub</h1>
+      <nav>
+        <a class="nav-link active" onclick="mudarSecao(event, 'feed')">📰 Feed</a>
+        <a class="nav-link" onclick="mudarSecao(event, 'mensagens')">💬 Mensagens</a>
+        <a class="nav-link" onclick="mudarSecao(event, 'departamentos')">🏢 Departamentos</a>
+        <a class="nav-link" onclick="mudarSecao(event, 'eventos')">📅 Eventos</a>
+        <a class="nav-link" onclick="mudarSecao(event, 'documentos')">📄 Documentos</a>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="main">
+      <!-- Header -->
+      <header class="header">
+        <div class="header-left">
+          <input type="text" placeholder="🔍 Buscar pessoas, departamentos..." onclick="window.location.href='pesquisa.html'" style="cursor: pointer;">
+          <button onclick="window.location.href='pesquisa.html'" style="cursor: pointer;">🔍</button>
+        </div>
+
+        <div class="header-right">
+          <button class="notification" onclick="alert('🔔 Você tem 3 notificações pendentes')">
+            🔔
+            <span class="badge">3</span>
+          </button>
+          <div class="user-section" onclick="window.location.href='perfil.html'" style="cursor: pointer;">
+            <img src="https://i.pravatar.cc/150?u=usuario@empresa.com" class="user-avatar" id="userAvatar">
+            <div>
+              <div class="user-name" id="userName">Usuário</div>
+              <div class="user-role">Gerente</div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Content Area -->
+      <div class="content">
+        <!-- Feed Section -->
+        <section id="feed" class="section show">
+          <h1 class="page-title">📰 Feed</h1>
+          
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-icon">👥</div>
+              <div class="stat-value">245</div>
+              <div class="stat-label">Usuários Ativos</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">💬</div>
+              <div class="stat-value">1.2k</div>
+              <div class="stat-label">Mensagens Hoje</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">📈</div>
+              <div class="stat-value">+18%</div>
+              <div class="stat-label">Engajamento</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">🎯</div>
+              <div class="stat-value">6</div>
+              <div class="stat-label">Departamentos</div>
+            </div>
+          </div>
+
+          <div>
+            <article class="post" style="border-left-color: #28a745;">
+              <div class="post-header">
+                <img src="https://i.pravatar.cc/150?u=gerente@empresa.com" class="avatar">
+                <div class="post-info">
+                  <h3>Gerente de Produção</h3>
+                  <p class="post-time">há 2 horas</p>
+                </div>
+              </div>
+              <div class="post-content">
+                <p>📈 Grande melhoria na eficiência da linha 2! Parabéns a todos envolvidos no processo. A produção aumentou 25% nessa semana.</p>
+              </div>
+            </article>
+
+            <article class="post" style="border-left-color: #ff9800;">
+              <div class="post-header">
+                <img src="https://i.pravatar.cc/150?u=rh@empresa.com" class="avatar">
+                <div class="post-info">
+                  <h3>RH</h3>
+                  <p class="post-time">há 4 horas</p>
+                </div>
+              </div>
+              <div class="post-content">
+                <p>📢 Lembrete: Período de férias aberto! Solicite até o final do mês. Não esqueça de preencher o formulário disponível no portal.</p>
+              </div>
+            </article>
+
+            <article class="post" style="border-left-color: #2196f3;">
+              <div class="post-header">
+                <img src="https://i.pravatar.cc/150?u=financeiro@empresa.com" class="avatar">
+                <div class="post-info">
+                  <h3>Financeiro</h3>
+                  <p class="post-time">há 6 horas</p>
+                </div>
+              </div>
+              <div class="post-content">
+                <p>💰 Resultados do mês foram excelentes! Margem operacional acima da expectativa. Lucro líquido cresceu 15% em relação ao mês anterior.</p>
+              </div>
+            </article>
+
+            <article class="post" style="border-left-color: #e91e63;">
+              <div class="post-header">
+                <img src="https://i.pravatar.cc/150?u=vendas@empresa.com" class="avatar">
+                <div class="post-info">
+                  <h3>Vendas</h3>
+                  <p class="post-time">há 5 horas</p>
+                </div>
+              </div>
+              <div class="post-content">
+                <p>🎯 Nova campanha de marketing foi lançada com sucesso! Temos mais 150 leads qualificados aguardando contato. Time está mobilizado!</p>
+              </div>
+            </article>
+
+            <article class="post" style="border-left-color: #00bcd4;">
+              <div class="post-header">
+                <img src="https://i.pravatar.cc/150?u=ti@empresa.com" class="avatar">
+                <div class="post-info">
+                  <h3>Equipe de TI</h3>
+                  <p class="post-time">há 8 horas</p>
+                </div>
+              </div>
+              <div class="post-content">
+                <p>🔧 Sistema atualizado com sucesso! Novo dashboard disponível para todos os usuários. Verifique as melhorias de performance implementadas.</p>
+              </div>
+            </article>
+
+            <article class="post" style="border-left-color: #9c27b0;">
+              <div class="post-header">
+                <img src="https://i.pravatar.cc/150?u=logistica@empresa.com" class="avatar">
+                <div class="post-info">
+                  <h3>Logística</h3>
+                  <p class="post-time">há 3 horas</p>
+                </div>
+              </div>
+              <div class="post-content">
+                <p>📦 Rota SP foi concluída 2 horas antes do previsto! Parabéns ao time de distribuição. Começamos a otimização de rotas na região RJ.</p>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- Mensagens Section -->
+        <section id="mensagens" class="section">
+          <h1 class="page-title">💬 Mensagens</h1>
+          <div class="card" style="margin-bottom: 2rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <h2 style="margin: 0;">Suas Conversas</h2>
+              <a href="mensagens.html" class="btn">💬 Ir para Chat Completo</a>
+            </div>
+          </div>
+          <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
+            <div class="message-card" onclick="window.location.href='mensagens.html'">
+              <div class="message-header">
+                <img src="https://i.pravatar.cc/150?u=gestor.producao@empresa.com" class="message-avatar">
+                <div>
+                  <h3 class="message-info" style="margin: 0;">Gerente de Produção</h3>
+                  <p class="message-time">🟢 Agora mesmo</p>
+                </div>
+              </div>
+              <p class="message-preview">Confirme a reunião de hoje às 15h na sala 302</p>
+              <span class="message-badge">1 mensagem</span>
+            </div>
+
+            <div class="message-card" onclick="window.location.href='mensagens.html'">
+              <div class="message-header">
+                <img src="https://i.pravatar.cc/150?u=ti@empresa.com" class="message-avatar">
+                <div>
+                  <h3 class="message-info" style="margin: 0;">Equipe de TI</h3>
+                  <p class="message-time">🟢 há 30 min</p>
+                </div>
+              </div>
+              <p class="message-preview">Sistema em manutenção das 22h às 23h. Favor se desconectar antes.</p>
+              <span class="message-badge">2 mensagens</span>
+            </div>
+
+            <div class="message-card" onclick="window.location.href='mensagens.html'">
+              <div class="message-header">
+                <img src="https://i.pravatar.cc/150?u=rh@empresa.com" class="message-avatar">
+                <div>
+                  <h3 class="message-info" style="margin: 0;">RH</h3>
+                  <p class="message-time">🟡 há 1 hora</p>
+                </div>
+              </div>
+              <p class="message-preview">Sua documentação foi atualizada no sistema. Verifique assim que possível.</p>
+              <span class="message-badge">Nova</span>
+            </div>
+
+            <div class="message-card" onclick="window.location.href='mensagens.html'">
+              <div class="message-header">
+                <img src="https://i.pravatar.cc/150?u=diretoria@empresa.com" class="message-avatar">
+                <div>
+                  <h3 class="message-info" style="margin: 0;">Diretoria</h3>
+                  <p class="message-time">🔴 há 2 horas</p>
+                </div>
+              </div>
+              <p class="message-preview">Relatório mensal disponível para análise</p>
+              <span class="message-badge">3 mensagens</span>
+            </div>
+
+            <div class="message-card" onclick="window.location.href='mensagens.html'">
+              <div class="message-header">
+                <img src="https://i.pravatar.cc/150?u=financeiro2@empresa.com" class="message-avatar">
+                <div>
+                  <h3 class="message-info" style="margin: 0;">Financeiro</h3>
+                  <p class="message-time">🟢 há 3 horas</p>
+                </div>
+              </div>
+              <p class="message-preview">Aprovações pendentes aguardando sua revisão</p>
+              <span class="message-badge">Urgente</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Departamentos Section -->
+        <section id="departamentos" class="section">
+          <h1 class="page-title">🏢 Departamentos</h1>
+          <div class="grid grid-full">
+            <div class="dept-card" onclick="window.location.href='producao.html'">
+              <h3>🏭 Produção</h3>
+              <p>45 membros ativos</p>
+              <p style="color: #999; font-size: 0.9rem; margin-bottom: 1rem; line-height: 1.5;">Responsável pela fabricação, controle de qualidade e otimização de processos produtivos. Lidera iniciativas de eficiência operacional.</p>
+              <button class="btn btn-secondary">Acessar</button>
+            </div>
+
+            <div class="dept-card" onclick="window.location.href='ti.html'">
+              <h3>💻 TI</h3>
+              <p>12 membros ativos</p>
+              <p style="color: #999; font-size: 0.9rem; margin-bottom: 1rem; line-height: 1.5;">Suporte técnico, desenvolvimento de sistemas e infraestrutura. Mantém a plataforma segura e atualizada.</p>
+              <button class="btn btn-secondary">Acessar</button>
+            </div>
+
+            <div class="dept-card" onclick="window.location.href='rh.html'">
+              <h3>👥 RH</h3>
+              <p>8 membros ativos</p>
+              <p style="color: #999; font-size: 0.9rem; margin-bottom: 1rem; line-height: 1.5;">Gestão de recursos humanos, recrutamento, desenvolvimento de pessoas e cultura organizacional.</p>
+              <button class="btn btn-secondary">Acessar</button>
+            </div>
+
+            <div class="dept-card" onclick="window.location.href='financeiro.html'">
+              <h3>📊 Financeiro</h3>
+              <p>6 membros ativos</p>
+              <p style="color: #999; font-size: 0.9rem; margin-bottom: 1rem; line-height: 1.5;">Gestão financeira, orçamento, contabilidade e análise de resultados. Garante saúde financeira da empresa.</p>
+              <button class="btn btn-secondary">Acessar</button>
+            </div>
+
+            <div class="dept-card" onclick="window.location.href='vendas.html'">
+              <h3>🎯 Vendas</h3>
+              <p>23 membros ativos</p>
+              <p style="color: #999; font-size: 0.9rem; margin-bottom: 1rem; line-height: 1.5;">Comercial, prospecção, gestão de clientes e fechamento de vendas. Impulsiona crescimento da receita.</p>
+              <button class="btn btn-secondary">Acessar</button>
+            </div>
+
+            <div class="dept-card" onclick="window.location.href='logistica.html'">
+              <h3>📦 Logística</h3>
+              <p>15 membros ativos</p>
+              <p style="color: #999; font-size: 0.9rem; margin-bottom: 1rem; line-height: 1.5;">Distribuição, armazenagem e gestão de rotas. Garante entrega eficiente dos produtos.</p>
+              <button class="btn btn-secondary">Acessar</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Eventos Section -->
+        <section id="eventos" class="section">
+          <h1 class="page-title">📅 Eventos</h1>
+          
+          <div>
+            <div class="event-card">
+              <div class="event-date">
+                <div class="event-date-day">15</div>
+                <div class="event-date-month">Jan</div>
+              </div>
+              <div class="event-info" style="flex: 1;">
+                <h3>Reunião de Gerentes</h3>
+                <p>📍 Sala 302 • ⏰ 15:00</p>
+                <p style="margin-top: 0.5rem; color: #999;">Discussão sobre metas do trimestre e alinhamento estratégico</p>
+              </div>
+            </div>
+
+            <div class="event-card" style="border-left-color: #e63946;">
+              <div class="event-date" style="background: linear-gradient(135deg, #e63946 0%, #c41e3a 100%);">
+                <div class="event-date-day">20</div>
+                <div class="event-date-month">Jan</div>
+              </div>
+              <div class="event-info" style="flex: 1;">
+                <h3>Treinamento ERP</h3>
+                <p>📍 Auditório • ⏰ 09:00</p>
+                <p style="margin-top: 0.5rem; color: #999;">Capacitação obrigatória para uso do novo sistema integrado</p>
+              </div>
+            </div>
+
+            <div class="event-card" style="border-left-color: #28a745;">
+              <div class="event-date" style="background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%);">
+                <div class="event-date-day">25</div>
+                <div class="event-date-month">Jan</div>
+              </div>
+              <div class="event-info" style="flex: 1;">
+                <h3>Happy Hour da Empresa</h3>
+                <p>📍 Restaurante XYZ • ⏰ 18:00</p>
+                <p style="margin-top: 0.5rem; color: #999;">Confraternização e integração de todos os departamentos</p>
+              </div>
+            </div>
+
+            <div class="event-card" style="border-left-color: #ff9800;">
+              <div class="event-date" style="background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);">
+                <div class="event-date-day">30</div>
+                <div class="event-date-month">Jan</div>
+              </div>
+              <div class="event-info" style="flex: 1;">
+                <h3>Workshop de Inovação</h3>
+                <p>📍 Sala de Conferência • ⏰ 14:00</p>
+                <p style="margin-top: 0.5rem; color: #999;">Apresentação de novas ideias e projetos em andamento</p>
+              </div>
+            </div>
+
+            <div class="event-card" style="border-left-color: #2196f3;">
+              <div class="event-date" style="background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);">
+                <div class="event-date-day">05</div>
+                <div class="event-date-month">Fev</div>
+              </div>
+              <div class="event-info" style="flex: 1;">
+                <h3>Encerramento de Metas 2024</h3>
+                <p>📍 Auditório • ⏰ 10:00</p>
+                <p style="margin-top: 0.5rem; color: #999;">Premiação e reconhecimento dos melhores desempenhos</p>
+              </div>
+            </div>
+
+            <div class="event-card" style="border-left-color: #9c27b0;">
+              <div class="event-date" style="background: linear-gradient(135deg, #9c27b0 0%, #7b1fa2 100%);">
+                <div class="event-date-day">10</div>
+                <div class="event-date-month">Fev</div>
+              </div>
+              <div class="event-info" style="flex: 1;">
+                <h3>Lançamento de Novos Produtos</h3>
+                <p>📍 Centro de Inovação • ⏰ 11:00</p>
+                <p style="margin-top: 0.5rem; color: #999;">Apresentação exclusiva da nova linha de produtos 2025</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Documentos Section -->
+        <section id="documentos" class="section">
+          <h1 class="page-title">📄 Documentos</h1>
+          <div style="max-width: 100%;">
+            <div class="card">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div style="display: flex; gap: 1rem; align-items: center;">
+                  <span style="font-size: 2rem;">📄</span>
+                  <div>
+                    <h3 style="margin: 0; color: #0a0e2a;">Manual de Procedimentos</h3>
+                    <p style="margin: 0.3rem 0 0 0; color: #666; font-size: 0.9rem;">PDF • 2.5 MB • Atualizado há 2 dias</p>
+                  </div>
+                </div>
+                <button class="btn btn-secondary" onclick="alert('📥 Baixando...')">📥 Baixar</button>
+              </div>
+            </div>
+
+            <div class="card">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div style="display: flex; gap: 1rem; align-items: center;">
+                  <span style="font-size: 2rem;">📋</span>
+                  <div>
+                    <h3 style="margin: 0; color: #0a0e2a;">Política de Férias 2025</h3>
+                    <p style="margin: 0.3rem 0 0 0; color: #666; font-size: 0.9rem;">PDF • 1.2 MB • Atualizado há 1 semana</p>
+                  </div>
+                </div>
+                <button class="btn btn-secondary" onclick="alert('📥 Baixando...')">📥 Baixar</button>
+              </div>
+            </div>
+
+            <div class="card">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div style="display: flex; gap: 1rem; align-items: center;">
+                  <span style="font-size: 2rem;">📊</span>
+                  <div>
+                    <h3 style="margin: 0; color: #0a0e2a;">Relatório Mensal - Janeiro</h3>
+                    <p style="margin: 0.3rem 0 0 0; color: #666; font-size: 0.9rem;">XLSX • 3.8 MB • Atualizado agora</p>
+                  </div>
+                </div>
+                <button class="btn btn-secondary" onclick="alert('📥 Baixando...')">📥 Baixar</button>
+              </div>
+            </div>
+
+            <div class="card">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div style="display: flex; gap: 1rem; align-items: center;">
+                  <span style="font-size: 2rem;">🔐</span>
+                  <div>
+                    <h3 style="margin: 0; color: #0a0e2a;">Políticas de Segurança</h3>
+                    <p style="margin: 0.3rem 0 0 0; color: #666; font-size: 0.9rem;">PDF • 980 KB • Atualizado há 3 dias</p>
+                  </div>
+                </div>
+                <button class="btn btn-secondary" onclick="alert('📥 Baixando...')">📥 Baixar</button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function mudarSecao(e, secao) {
+      e.preventDefault();
+      
+      document.querySelectorAll('.section').forEach(s => s.classList.remove('show'));
+      document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+      
+      document.getElementById(secao).classList.add('show');
+      e.target.closest('.nav-link').classList.add('active');
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const usuario = localStorage.getItem('usuarioLogado') || 'usuario@empresa.com';
+      document.getElementById('userName').textContent = usuario.split('@')[0];
+      document.getElementById('userAvatar').src = `https://i.pravatar.cc/150?u=${encodeURIComponent(usuario)}`;
+    });
+  </script>
+</body>
+</html>
