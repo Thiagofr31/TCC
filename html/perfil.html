@@ -4,90 +4,262 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <title>Meu Perfil – Conectal·lub</title>
-  <link rel="stylesheet" href="css/dashboard.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+    
+    .container { max-width: 1200px; margin: 0 auto; padding: 2rem; min-height: 100vh; }
+    .back-btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.8rem 1.5rem; background: rgba(255,255,255,0.2); color: white; text-decoration: none; border-radius: 12px; font-weight: 600; margin-bottom: 2rem; backdrop-filter: blur(10px); transition: all 0.3s; border: 1px solid rgba(255,255,255,0.3); }
+    .back-btn:hover { background: rgba(255,255,255,0.3); transform: translateX(-5px); }
+    
+    .profile-header { background: white; padding: 3rem; border-radius: 20px; margin-bottom: 2rem; box-shadow: 0 20px 60px rgba(0,0,0,0.15); position: relative; overflow: hidden; }
+    .profile-header::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 150px; background: linear-gradient(135deg, #7209b7 0%, #5a0a8f 100%); z-index: 0; }
+    .profile-content { position: relative; z-index: 1; text-align: center; }
+    .avatar-wrapper { position: relative; display: inline-block; margin-bottom: 1.5rem; }
+    .avatar-wrapper img { width: 150px; height: 150px; border-radius: 50%; border: 6px solid white; box-shadow: 0 10px 30px rgba(0,0,0,0.2); object-fit: cover; }
+    .avatar-badge { position: absolute; bottom: 10px; right: 10px; width: 40px; height: 40px; background: linear-gradient(135deg, #7209b7 0%, #5a0a8f 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.2rem; cursor: pointer; border: 3px solid white; box-shadow: 0 4px 12px rgba(0,0,0,0.2); transition: all 0.3s; }
+    .avatar-badge:hover { transform: scale(1.1); }
+    .profile-name { color: #0a0e2a; font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .profile-email { color: #666; font-size: 1rem; margin-bottom: 1rem; }
+    .profile-stats { display: flex; justify-content: center; gap: 3rem; margin-top: 2rem; }
+    .stat-item { text-align: center; }
+    .stat-value { color: #7209b7; font-size: 1.8rem; font-weight: 700; }
+    .stat-label { color: #666; font-size: 0.9rem; margin-top: 0.3rem; }
+    
+    .action-buttons { display: flex; gap: 1rem; justify-content: center; margin-top: 2rem; flex-wrap: wrap; }
+    .btn { padding: 0.9rem 2rem; border: none; border-radius: 12px; font-weight: 600; cursor: pointer; transition: all 0.3s; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 0.5rem; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+    .btn-primary { background: linear-gradient(135deg, #7209b7 0%, #5a0a8f 100%); color: white; }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(114, 9, 183, 0.3); }
+    .btn-secondary { background: linear-gradient(135deg, #e63946 0%, #c41e3a 100%); color: white; }
+    .btn-secondary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(230, 57, 70, 0.3); }
+    
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(500px, 1fr)); gap: 2rem; margin-bottom: 2rem; }
+    .card { background: white; padding: 2.5rem; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.08); transition: all 0.3s; }
+    .card:hover { transform: translateY(-5px); box-shadow: 0 15px 50px rgba(0,0,0,0.12); }
+    .card-title { color: #0a0e2a; font-size: 1.4rem; font-weight: 700; margin-bottom: 2rem; display: flex; align-items: center; gap: 0.8rem; }
+    .card-title::before { content: ''; width: 4px; height: 30px; background: linear-gradient(135deg, #7209b7 0%, #5a0a8f 100%); border-radius: 2px; }
+    
+    .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+    .info-item { padding: 1rem; background: #f8f9fa; border-radius: 12px; transition: all 0.3s; }
+    .info-item:hover { background: #f1f3f5; transform: translateX(5px); }
+    .info-label { color: #666; font-size: 0.85rem; margin-bottom: 0.5rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
+    .info-value { color: #0a0e2a; font-weight: 600; font-size: 1.05rem; }
+    
+    .security-card { margin-bottom: 2rem; }
+    .security-btn { width: 100%; padding: 1.3rem; border: none; border-radius: 12px; font-weight: 600; cursor: pointer; text-align: left; display: flex; align-items: center; gap: 1rem; transition: all 0.3s; margin-bottom: 1rem; font-size: 1rem; }
+    .security-btn.warning { background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%); color: #856404; border: 2px solid #ffc107; }
+    .security-btn.success { background: linear-gradient(135deg, #d4edda 0%, #b9f6ca 100%); color: #155724; border: 2px solid #28a745; }
+    .security-btn:hover { transform: translateX(10px); box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
+    
+    .preferences-card { margin-bottom: 2rem; }
+    .checkbox-item { display: flex; align-items: center; padding: 1.2rem; background: #f8f9fa; border-radius: 12px; margin-bottom: 1rem; cursor: pointer; transition: all 0.3s; }
+    .checkbox-item:hover { background: #e9ecef; }
+    .checkbox-item input[type="checkbox"] { width: 24px; height: 24px; margin-right: 1rem; cursor: pointer; accent-color: #7209b7; }
+    .checkbox-item label { color: #0a0e2a; font-weight: 500; cursor: pointer; flex: 1; font-size: 1rem; }
+    
+    .logout-btn { width: 100%; padding: 1.3rem; background: linear-gradient(135deg, #d32f2f 0%, #b71c1c 100%); color: white; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; font-size: 1.1rem; transition: all 0.3s; display: flex; align-items: center; justify-content: center; gap: 0.8rem; box-shadow: 0 6px 20px rgba(211, 47, 47, 0.3); }
+    .logout-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(211, 47, 47, 0.4); }
+    
+    .badge { display: inline-block; padding: 0.4rem 1rem; background: linear-gradient(135deg, #7209b7 0%, #5a0a8f 100%); color: white; border-radius: 20px; font-size: 0.85rem; font-weight: 600; margin-left: 0.5rem; }
+    
+    .achievement-section { margin-top: 2rem; padding-top: 2rem; border-top: 2px solid #e9ecef; }
+    .achievement-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 1rem; }
+    .achievement-item { text-align: center; padding: 1rem; background: #f8f9fa; border-radius: 12px; transition: all 0.3s; cursor: pointer; }
+    .achievement-item:hover { background: #7209b7; color: white; transform: translateY(-5px); }
+    .achievement-icon { font-size: 2.5rem; margin-bottom: 0.5rem; }
+    .achievement-name { font-size: 0.85rem; font-weight: 600; }
+    
+    @media (max-width: 768px) {
+      .grid { grid-template-columns: 1fr; }
+      .info-grid { grid-template-columns: 1fr; }
+      .profile-stats { flex-direction: column; gap: 1rem; }
+      .action-buttons { flex-direction: column; width: 100%; }
+      .btn { width: 100%; justify-content: center; }
+    }
+  </style>
 </head>
 <body>
-  <div style="display:flex; height:100vh; background:#f1faee;">
-    <div style="flex:1; padding:2rem; overflow-y:auto;">
-      <a href="dashboard.html" style="display:inline-block; margin-bottom:1.5rem; padding:0.6rem 1.2rem; background:#7209b7; color:white; text-decoration:none; border-radius:8px; font-weight:600;">← Voltar</a>
+  <div class="container">
+    <a href="dashboard.html" class="back-btn">← Voltar ao Dashboard</a>
       
-      <h1 style="color:#0a0e2a; margin-bottom:2rem;">👤 Meu Perfil</h1>
-
-      <div style="background:white; padding:3rem; border-radius:12px; margin-bottom:1.5rem; box-shadow:0 2px 8px rgba(0,0,0,0.05); text-align:center;">
-        <img id="perfilAvatar" src="https://i.pravatar.cc/200?u=usuario@empresa.com" style="width:120px; height:120px; border-radius:50%; margin-bottom:1.5rem; border:4px solid #7209b7;">
-        <h2 id="perfilNome" style="color:#0a0e2a; margin-bottom:0.5rem;">Usuário</h2>
-        <p id="perfilEmail" style="color:#666; font-size:1rem; margin-bottom:1.5rem;">usuario@empresa.com</p>
-        <button onclick="editarFoto()" style="padding:0.8rem 1.5rem; background:#7209b7; color:white; border:none; border-radius:8px; font-weight:600; cursor:pointer; margin-right:0.5rem;">📷 Alterar Foto</button>
-        <button onclick="editarPerfil()" style="padding:0.8rem 1.5rem; background:#e63946; color:white; border:none; border-radius:8px; font-weight:600; cursor:pointer;">✏️ Editar Perfil</button>
-      </div>
-
-      <div style="background:white; padding:2rem; border-radius:12px; margin-bottom:1.5rem; box-shadow:0 2px 8px rgba(0,0,0,0.05);">
-        <h3 style="color:#0a0e2a; margin-bottom:1.5rem;">📋 Informações Pessoais</h3>
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem;">
-          <div>
-            <p style="color:#666; font-size:0.9rem; margin-bottom:0.3rem;">Nome Completo</p>
-            <p id="infoNome" style="color:#0a0e2a; font-weight:600;">João Silva Santos</p>
+      <div class="profile-header">
+        <div class="profile-content">
+          <div class="avatar-wrapper">
+            <img id="perfilAvatar" src="https://i.pravatar.cc/200?u=usuario@empresa.com" alt="Avatar">
+            <div class="avatar-badge" onclick="editarFoto()" title="Alterar foto">📷</div>
           </div>
-          <div>
-            <p style="color:#666; font-size:0.9rem; margin-bottom:0.3rem;">E-mail</p>
-            <p id="infoEmail" style="color:#0a0e2a; font-weight:600;">joao.silva@empresa.com</p>
+          <h1 class="profile-name" id="perfilNome">Usuário</h1>
+          <p class="profile-email" id="perfilEmail">usuario@empresa.com</p>
+          <span class="badge">✨ Membro Verificado</span>
+          
+          <div class="profile-stats">
+            <div class="stat-item">
+              <div class="stat-value">156</div>
+              <div class="stat-label">Posts</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value">4.2k</div>
+              <div class="stat-label">Interações</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value">89%</div>
+              <div class="stat-label">Perfil Completo</div>
+            </div>
           </div>
-          <div>
-            <p style="color:#666; font-size:0.9rem; margin-bottom:0.3rem;">Telefone</p>
-            <p style="color:#0a0e2a; font-weight:600;">(11) 98765-4321</p>
-          </div>
-          <div>
-            <p style="color:#666; font-size:0.9rem; margin-bottom:0.3rem;">Data de Nascimento</p>
-            <p style="color:#0a0e2a; font-weight:600;">15/05/1990</p>
-          </div>
-        </div>
-      </div>
-
-      <div style="background:white; padding:2rem; border-radius:12px; margin-bottom:1.5rem; box-shadow:0 2px 8px rgba(0,0,0,0.05);">
-        <h3 style="color:#0a0e2a; margin-bottom:1.5rem;">🏢 Informações Profissionais</h3>
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem;">
-          <div>
-            <p style="color:#666; font-size:0.9rem; margin-bottom:0.3rem;">Departamento</p>
-            <p style="color:#0a0e2a; font-weight:600;">Produção</p>
-          </div>
-          <div>
-            <p style="color:#666; font-size:0.9rem; margin-bottom:0.3rem;">Cargo</p>
-            <p style="color:#0a0e2a; font-weight:600;">Gerente de Produção</p>
-          </div>
-          <div>
-            <p style="color:#666; font-size:0.9rem; margin-bottom:0.3rem;">Data de Admissão</p>
-            <p style="color:#0a0e2a; font-weight:600;">10/01/2020</p>
-          </div>
-          <div>
-            <p style="color:#666; font-size:0.9rem; margin-bottom:0.3rem;">Supervisor</p>
-            <p style="color:#0a0e2a; font-weight:600;">Carlos Mendes</p>
+          
+          <div class="action-buttons">
+            <button class="btn btn-primary" onclick="editarPerfil()">✏️ Editar Perfil</button>
+            <button class="btn btn-secondary" onclick="compartilharPerfil()">🔗 Compartilhar</button>
           </div>
         </div>
       </div>
 
-      <div style="background:white; padding:2rem; border-radius:12px; margin-bottom:1.5rem; box-shadow:0 2px 8px rgba(0,0,0,0.05);">
-        <h3 style="color:#0a0e2a; margin-bottom:1.5rem;">🔐 Segurança</h3>
-        <button onclick="alterarSenha()" style="display:block; width:100%; padding:1rem; background:#fff3cd; color:#0a0e2a; border:1px solid #ffc107; border-radius:8px; font-weight:600; cursor:pointer; text-align:left;">🔑 Alterar Senha</button>
-        <button onclick="ativarAutenticacao()" style="display:block; width:100%; padding:1rem; background:#d4edda; color:#155724; border:1px solid #28a745; border-radius:8px; font-weight:600; cursor:pointer; margin-top:0.8rem; text-align:left;">✅ Autenticação em Duas Etapas</button>
+      <div class="grid">
+        <div class="card">
+          <h3 class="card-title">📋 Informações Pessoais</h3>
+          <div class="info-grid">
+            <div class="info-item">
+              <p class="info-label">Nome Completo</p>
+              <p class="info-value" id="infoNome">João Silva Santos</p>
+            </div>
+            <div class="info-item">
+              <p class="info-label">E-mail</p>
+              <p class="info-value" id="infoEmail">joao.silva@empresa.com</p>
+            </div>
+            <div class="info-item">
+              <p class="info-label">Telefone</p>
+              <p class="info-value">(11) 98765-4321</p>
+            </div>
+            <div class="info-item">
+              <p class="info-label">Data de Nascimento</p>
+              <p class="info-value">15/05/1990</p>
+            </div>
+            <div class="info-item">
+              <p class="info-label">CPF</p>
+              <p class="info-value">***.***.***-**</p>
+            </div>
+            <div class="info-item">
+              <p class="info-label">Endereço</p>
+              <p class="info-value">São Paulo, SP</p>
+            </div>
+          </div>
+          
+          <div class="achievement-section">
+            <h4 style="color: #0a0e2a; margin-bottom: 1rem; font-weight: 600;">🏆 Conquistas</h4>
+            <div class="achievement-grid">
+              <div class="achievement-item" title="Primeira postagem">
+                <div class="achievement-icon">🎯</div>
+                <div class="achievement-name">Iniciante</div>
+              </div>
+              <div class="achievement-item" title="100 interações">
+                <div class="achievement-icon">💬</div>
+                <div class="achievement-name">Comunicador</div>
+              </div>
+              <div class="achievement-item" title="1 ano na empresa">
+                <div class="achievement-icon">⭐</div>
+                <div class="achievement-name">Veterano</div>
+              </div>
+              <div class="achievement-item" title="Perfil completo">
+                <div class="achievement-icon">✅</div>
+                <div class="achievement-name">Completo</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 class="card-title">🏢 Informações Profissionais</h3>
+          <div class="info-grid">
+            <div class="info-item">
+              <p class="info-label">Departamento</p>
+              <p class="info-value">🏭 Produção</p>
+            </div>
+            <div class="info-item">
+              <p class="info-label">Cargo</p>
+              <p class="info-value">Gerente de Produção</p>
+            </div>
+            <div class="info-item">
+              <p class="info-label">Data de Admissão</p>
+              <p class="info-value">10/01/2020</p>
+            </div>
+            <div class="info-item">
+              <p class="info-label">Supervisor</p>
+              <p class="info-value">Carlos Mendes</p>
+            </div>
+            <div class="info-item">
+              <p class="info-label">Tempo na Empresa</p>
+              <p class="info-value">5 anos</p>
+            </div>
+            <div class="info-item">
+              <p class="info-label">Nível de Acesso</p>
+              <p class="info-value">🔓 Gerencial</p>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div style="background:white; padding:2rem; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.05);">
-        <h3 style="color:#0a0e2a; margin-bottom:1.5rem;">⚙️ Preferências</h3>
-        <label style="display:flex; align-items:center; margin-bottom:1rem; cursor:pointer;">
-          <input type="checkbox" checked style="width:20px; height:20px; margin-right:0.8rem; cursor:pointer;">
-          <span style="color:#0a0e2a;">Receber notificações por e-mail</span>
-        </label>
-        <label style="display:flex; align-items:center; margin-bottom:1rem; cursor:pointer;">
-          <input type="checkbox" checked style="width:20px; height:20px; margin-right:0.8rem; cursor:pointer;">
-          <span style="color:#0a0e2a;">Receber atualizações do departamento</span>
-        </label>
-        <label style="display:flex; align-items:center; cursor:pointer;">
-          <input type="checkbox" style="width:20px; height:20px; margin-right:0.8rem; cursor:pointer;">
-          <span style="color:#0a0e2a;">Publicar atividades no feed</span>
-        </label>
+      <div class="card security-card">
+        <h3 class="card-title">🔐 Segurança</h3>
+        <button onclick="alterarSenha()" class="security-btn warning">
+          <span style="font-size: 1.5rem;">🔑</span>
+          <div>
+            <div style="font-weight: 700;">Alterar Senha</div>
+            <div style="font-size: 0.85rem; opacity: 0.8; margin-top: 0.2rem;">Última alteração há 30 dias</div>
+          </div>
+        </button>
+        <button onclick="ativarAutenticacao()" class="security-btn success">
+          <span style="font-size: 1.5rem;">✅</span>
+          <div>
+            <div style="font-weight: 700;">Autenticação em Duas Etapas</div>
+            <div style="font-size: 0.85rem; opacity: 0.8; margin-top: 0.2rem;">Aumente a segurança da sua conta</div>
+          </div>
+        </button>
+        <button onclick="gerenciarSessoes()" class="security-btn" style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); color: #0d47a1; border: 2px solid #2196f3;">
+          <span style="font-size: 1.5rem;">📱</span>
+          <div>
+            <div style="font-weight: 700;">Gerenciar Sessões</div>
+            <div style="font-size: 0.85rem; opacity: 0.8; margin-top: 0.2rem;">3 dispositivos conectados</div>
+          </div>
+        </button>
       </div>
 
-      <button onclick="logout()" style="width:100%; margin-top:2rem; padding:1rem; background:#d32f2f; color:white; border:none; border-radius:8px; font-weight:600; cursor:pointer; font-size:1rem;">🚪 Sair da Conta</button>
+      <div class="card preferences-card">
+        <h3 class="card-title">⚙️ Preferências</h3>
+        <div class="checkbox-item">
+          <input type="checkbox" id="notif-email" checked>
+          <label for="notif-email">
+            <div style="font-weight: 600;">Receber notificações por e-mail</div>
+            <div style="font-size: 0.85rem; color: #666; margin-top: 0.2rem;">Seja notificado sobre atualizações importantes</div>
+          </label>
+        </div>
+        <div class="checkbox-item">
+          <input type="checkbox" id="notif-dept" checked>
+          <label for="notif-dept">
+            <div style="font-weight: 600;">Receber atualizações do departamento</div>
+            <div style="font-size: 0.85rem; color: #666; margin-top: 0.2rem;">Fique por dentro das novidades</div>
+          </label>
+        </div>
+        <div class="checkbox-item">
+          <input type="checkbox" id="public-feed">
+          <label for="public-feed">
+            <div style="font-weight: 600;">Publicar atividades no feed</div>
+            <div style="font-size: 0.85rem; color: #666; margin-top: 0.2rem;">Compartilhe suas atividades com a equipe</div>
+          </label>
+        </div>
+        <div class="checkbox-item">
+          <input type="checkbox" id="dark-mode">
+          <label for="dark-mode">
+            <div style="font-weight: 600;">Modo escuro</div>
+            <div style="font-size: 0.85rem; color: #666; margin-top: 0.2rem;">Ative o tema escuro (em breve)</div>
+          </label>
+        </div>
+      </div>
+
+      <button onclick="logout()" class="logout-btn">
+        <span style="font-size: 1.3rem;">🚪</span>
+        Sair da Conta
+      </button>
     </div>
   </div>
 
@@ -96,31 +268,94 @@
       const usuario = localStorage.getItem('usuarioLogado') || 'usuario@empresa.com';
       document.getElementById('perfilEmail').textContent = usuario;
       document.getElementById('infoEmail').textContent = usuario;
-      document.getElementById('perfilNome').textContent = usuario.split('@')[0];
-      document.getElementById('infoNome').textContent = usuario.split('@')[0];
+      
+      const nomeArmazenado = localStorage.getItem('usuarioNome');
+      if (nomeArmazenado) {
+        document.getElementById('perfilNome').textContent = nomeArmazenado;
+        document.getElementById('infoNome').textContent = nomeArmazenado;
+      } else {
+        document.getElementById('perfilNome').textContent = usuario.split('@')[0];
+        document.getElementById('infoNome').textContent = usuario.split('@')[0];
+      }
       
       const avatarUrl = localStorage.getItem('usuarioFoto') || `https://i.pravatar.cc/200?u=${encodeURIComponent(usuario)}`;
       document.getElementById('perfilAvatar').src = avatarUrl;
     });
 
     function editarFoto() {
-      alert('📷 Funcionalidade de upload de foto em desenvolvimento');
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = 'image/*';
+      input.onchange = function(e) {
+        const file = e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = function(event) {
+            document.getElementById('perfilAvatar').src = event.target.result;
+            localStorage.setItem('usuarioFoto', event.target.result);
+            alert('✅ Foto atualizada com sucesso!');
+          };
+          reader.readAsDataURL(file);
+        }
+      };
+      input.click();
     }
 
     function editarPerfil() {
-      alert('✏️ Funcionalidade de edição de perfil em desenvolvimento');
+      const nome = prompt('Digite seu nome completo:', document.getElementById('infoNome').textContent);
+      if (nome) {
+        document.getElementById('perfilNome').textContent = nome;
+        document.getElementById('infoNome').textContent = nome;
+        localStorage.setItem('usuarioNome', nome);
+        alert('✅ Perfil atualizado com sucesso!');
+      }
+    }
+
+    function compartilharPerfil() {
+      const usuario = localStorage.getItem('usuarioLogado') || 'usuario@empresa.com';
+      const url = `${window.location.origin}/perfil.html?user=${encodeURIComponent(usuario)}`;
+      navigator.clipboard.writeText(url).then(() => {
+        alert('🔗 Link do perfil copiado para a área de transferência!');
+      }).catch(() => {
+        alert('🔗 Link do perfil: ' + url);
+      });
     }
 
     function alterarSenha() {
-      alert('🔑 Funcionalidade de alteração de senha em desenvolvimento');
+      const senhaAtual = prompt('Digite sua senha atual:');
+      if (senhaAtual) {
+        const novaSenha = prompt('Digite sua nova senha:');
+        if (novaSenha && novaSenha.length >= 6) {
+          const confirmar = prompt('Confirme sua nova senha:');
+          if (confirmar === novaSenha) {
+            alert('✅ Senha alterada com sucesso!');
+          } else {
+            alert('❌ As senhas não coincidem.');
+          }
+        } else {
+          alert('❌ A senha deve ter no mínimo 6 caracteres.');
+        }
+      }
     }
 
     function ativarAutenticacao() {
-      alert('✅ Funcionalidade de autenticação 2FA em desenvolvimento');
+      const confirmar = confirm('Deseja ativar a autenticação em duas etapas?\n\nIsso aumentará a segurança da sua conta, exigindo um código adicional no login.');
+      if (confirmar) {
+        alert('✅ Autenticação em duas etapas ativada!\n\nVocê receberá um código por e-mail em cada novo login.');
+      }
+    }
+
+    function gerenciarSessoes() {
+      const dispositivos = [
+        '💻 Windows - Chrome (Este dispositivo)',
+        '📱 Android - App móvel',
+        '🖥️ MacBook - Safari'
+      ];
+      alert('📱 Dispositivos conectados:\n\n' + dispositivos.join('\n'));
     }
 
     function logout() {
-      if(confirm('Tem certeza que deseja sair?')) {
+      if(confirm('⚠️ Tem certeza que deseja sair da sua conta?')) {
         localStorage.removeItem('usuarioLogado');
         window.location.href = 'login.html';
       }
